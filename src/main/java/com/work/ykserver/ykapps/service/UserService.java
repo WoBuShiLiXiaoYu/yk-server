@@ -3,6 +3,8 @@ package com.work.ykserver.ykapps.service;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.query.UserQuery;
+import com.work.ykserver.ykapps.vo.Result;
 
 import java.util.List;
 
@@ -14,4 +16,9 @@ import java.util.List;
 public interface UserService  extends IService<User>{
 
     Page getUserListByPage(Integer currentPage);
+
+    User getUserDetailInfoById(Integer id);
+
+    Result userSave(UserQuery userQuery);
+
 }

@@ -25,6 +25,10 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> selectUserListByPage(@Param("page") Page page);
 
     Integer selectRowCount();
+
+    User selectUserDetailById(@Param("id") Integer id);
+
+    int addUser(@Param("user") User user);
 }
 
 

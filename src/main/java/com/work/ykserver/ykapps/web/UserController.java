@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.CodeEnum;
 import com.work.ykserver.ykapps.pojo.User;
+import com.work.ykserver.ykapps.query.UserQuery;
 import com.work.ykserver.ykapps.service.UserService;
 import com.work.ykserver.ykapps.util.JSONUtils;
 import com.work.ykserver.ykapps.util.ResultUtils;
@@ -11,12 +12,10 @@ import com.work.ykserver.ykapps.vo.Result;
 import com.work.ykserver.ykapps.vo.SecurityUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j
@@ -53,4 +52,22 @@ public class UserController {
         }
         return ResultUtils.success(CodeEnum.OK.getCode(), "", page);
     }
+
+    @GetMapping("/userDetailInfo/{id}")
+    public Result getUserDetailInfo(@PathVariable(value = "id") Integer id) {
+        if (id == null) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        User user = userService.getUserDetailInfoById(id);
+        return ResultUtils.success(user);
+    }
+
+    @PostMapping("/userSave")
+    public Result userSave(UserQuery userQuery) {
+        if (ObjectUtil.isEmpty(userQuery)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        return userService.userSave(userQuery);
+    }
+
 }

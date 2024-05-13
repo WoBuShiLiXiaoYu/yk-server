@@ -12,7 +12,9 @@ public enum CodeEnum {
     TOKEN_IS_EXPIRED(40701, "token 已过期！"),
     TOKEN_IS_NONE_MATCH(40601, "token 不一致"),
     LOGOUT_SUCCESS(00000, "退出成功！"),
-    GET_USER_LIST_IS_NULL(30001, "查询用户列表为空！")
+    GET_USER_LIST_IS_NULL(30001, "查询用户列表为空！"),
+    SAVE_USER_FAIL(30002, "新增用户失败！"),
+    PARAMETERS_IS_NULL(30100, "请求参数为空！")
     ;
 
     private final int code;

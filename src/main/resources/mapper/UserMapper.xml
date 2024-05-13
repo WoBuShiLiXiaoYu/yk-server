@@ -22,6 +22,25 @@
             <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap id="UserDetailMap" type="com.work.ykserver.ykapps.pojo.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="loginAct" column="login_act" jdbcType="VARCHAR"/>
+        <result property="loginPwd" column="login_pwd" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="accountNoExpired" column="account_no_expired" jdbcType="INTEGER"/>
+        <result property="credentialsNoExpired" column="credentials_no_expired" jdbcType="INTEGER"/>
+        <result property="accountNoLocked" column="account_no_locked" jdbcType="INTEGER"/>
+        <result property="accountEnabled" column="account_enabled" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+        <result property="editTime" column="edit_time" jdbcType="TIMESTAMP"/>
+        <result property="editBy" column="edit_by" jdbcType="INTEGER"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,login_act,login_pwd,
         name,phone,email,
@@ -29,6 +48,15 @@
         account_enabled,create_time,create_by,
         edit_time,edit_by,last_login_time
     </sql>
+    <insert id="addUser">
+        insert into t_user(login_act,login_pwd,
+                           name,phone,email,
+                           account_no_expired,credentials_no_expired,account_no_locked,
+                           account_enabled,create_time,create_by)
+                    values (#{user.loginAct}, #{user.loginPwd}, #{user.name}, #{user.phone}, #{user.email},
+                            #{user.accountNoExpired}, #{user.credentialsNoExpired}, #{user.accountNoLocked},
+                            #{user.accountEnabled}, #{user.createTime}, #{user.createBy})
+    </insert>
     <select id="getUserByName" resultType="com.work.ykserver.ykapps.pojo.User">
         select <include refid="Base_Column_List"/>
         from t_user
@@ -43,5 +71,18 @@
     <select id="selectRowCount" resultType="java.lang.Integer">
         select count(*)
         from t_user
+    </select>
+    <select id="selectUserDetailById" resultType="com.work.ykserver.ykapps.pojo.User">
+        select u1.id, u1.login_act, u1.login_pwd,
+               u1.name, u1.phone, u1.email,
+               u1.account_no_expired, u1.credentials_no_expired, u1.account_no_locked,
+               u1.account_enabled, u1.create_time, u2.name as createName,
+               u1.edit_time, u3.name as editName, u1.last_login_time
+        from t_user as u1
+        left outer join t_user as u2
+        on u1.create_by = u2.id
+        left outer join t_user as u3
+        on u1.edit_by = u3.id
+        where u1.id = #{id}
     </select>
 </mapper>

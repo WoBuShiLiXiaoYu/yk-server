@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +20,37 @@ class UserMapperTest {
 
     @Resource
     private UserMapper userMapper;
+
+    @Test
+    public void addUserTest() {
+        /*
+        login_act,login_pwd,
+        name,phone,email,
+        account_no_expired,credentials_no_expired,account_no_locked,
+        account_enabled,create_time,create_by,
+         */
+        User user = new User();
+        user.setLoginAct("zss");
+        user.setLoginPwd("123123");
+        user.setEmail("123123@163.com");
+        user.setName("张思思");
+        user.setPhone("12345678903");
+        user.setAccountNoExpired(0);
+        user.setAccountNoExpired(0);
+        user.setAccountNoLocked(0);
+        user.setAccountEnabled(0);
+        user.setCreateBy(1);
+        user.setCreateTime(new Date());
+        int result = userMapper.addUser(user);
+        Assertions.assertEquals(1, result);
+    }
+
+    @Test
+    public void selectUserDetailByIdTest() {
+        User user = userMapper.selectUserDetailById(1);
+        Assertions.assertNotNull(user);
+        log.info("user: " + user);
+    }
 
     @Test
     public void selectRowCount() {

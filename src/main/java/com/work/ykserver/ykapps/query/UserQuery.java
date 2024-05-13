@@ -1,24 +1,14 @@
-package com.work.ykserver.ykapps.pojo;
+package com.work.ykserver.ykapps.query;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
 import lombok.Data;
 
-/**
- * 用户表
- * @TableName t_user
- */
-@TableName(value ="t_user")
 @Data
-public class User implements Serializable {
+public class UserQuery {
     /**
-     * 主键，自动增长，用户ID
+     * 主键，自动增长，登录用户ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -76,42 +66,4 @@ public class User implements Serializable {
      */
     @TableField(value = "account_enabled")
     private Integer accountEnabled;
-
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time")
-    private Date createTime;
-
-    /**
-     * 创建人
-     */
-    @TableField(value = "create_by")
-    private Integer createBy;
-
-    /**
-     * 编辑时间
-     */
-    @TableField(value = "edit_time")
-    private Date editTime;
-
-    /**
-     * 编辑人
-     */
-    @TableField(value = "edit_by")
-    private Integer editBy;
-
-    /**
-     * 最近登录时间
-     */
-    @TableField(value = "last_login_time")
-    private Date lastLoginTime;
-
-    private String createName;
-    private String editName;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
-
-
 }
