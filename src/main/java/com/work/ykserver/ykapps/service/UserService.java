@@ -21,4 +21,9 @@ public interface UserService  extends IService<User>{
 
     Result userSave(UserQuery userQuery);
 
+    Result userEdit(UserQuery userQuery);
+
+    Result deleteUserById(Integer id);
+
+    Result deleteUserByIds(String[] ids);
 }

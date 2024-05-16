@@ -109,6 +109,8 @@ public class User implements Serializable {
 
     private String createName;
     private String editName;
+    private List<String> roleList;
+    private List<String> permissionList;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

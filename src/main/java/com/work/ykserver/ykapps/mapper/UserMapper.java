@@ -1,8 +1,10 @@
 package com.work.ykserver.ykapps.mapper;
 
 import com.work.ykserver.ykapps.bo.Page;
+import com.work.ykserver.ykapps.common.DataScope;
 import com.work.ykserver.ykapps.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.work.ykserver.ykapps.query.BaseQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,13 +24,19 @@ public interface UserMapper extends BaseMapper<User> {
      */
     User getUserByName(@Param("username") String username);
 
-    List<User> selectUserListByPage(@Param("page") Page page);
+    @DataScope(myTableAlias = "tu", myTableField = "id")
+    //tu.id =
+    List<User> selectUserListByPage(@Param("query") BaseQuery query, @Param("page") Page page);
 
     Integer selectRowCount();
 
     User selectUserDetailById(@Param("id") Integer id);
 
     int addUser(@Param("user") User user);
+
+    int updateUserById(@Param("user") User user);
+
+    int batchDeleteByIds(@Param("userIds") List<Integer> userIds);
 }
 
 

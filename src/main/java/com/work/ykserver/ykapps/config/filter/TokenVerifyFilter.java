@@ -48,7 +48,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
          filterChain.doFilter(request, response);
         }
         // 获取 token
-        String token = request.getHeader("authorization");
+        String token = request.getHeader(RequestConstants.HEADER_TOKEN_NAME);
         // 验证 token 是否为空
         if (StrUtil.isEmpty(token)) {
             Result result = ResultUtils.fail(CodeEnum.TOKEN_IS_EMPTY);
@@ -112,7 +112,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
         }).start();*/
 
         poolTaskExecutor.execute(() -> {
-            String rememberMe = request.getHeader("rememberme");
+            String rememberMe = request.getHeader(RequestConstants.HEADER_REMEMBER);
             if (Boolean.parseBoolean(rememberMe)) {
                 redisUtils.expire(RedisConstants.REDIS_JWT_KEY + securityUser.getUser().getId(),
                         RedisConstants.EXPIRE_TIME, TimeUnit.SECONDS);

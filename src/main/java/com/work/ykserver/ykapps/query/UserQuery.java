@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
-public class UserQuery {
+public class UserQuery extends BaseQuery {
     /**
      * 主键，自动增长，登录用户ID
      */

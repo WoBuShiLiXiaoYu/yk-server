@@ -2,6 +2,7 @@ package com.work.ykserver.ykapps.mapper;
 
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.pojo.User;
+import com.work.ykserver.ykapps.query.BaseQuery;
 import com.work.ykserver.ykapps.util.PageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -20,6 +21,25 @@ class UserMapperTest {
 
     @Resource
     private UserMapper userMapper;
+
+    @Test
+    public void updateUserByIdTest() {
+        User user = new User();
+        user.setId(34);
+        user.setLoginAct("zssTest11");
+        user.setLoginPwd("123123");
+        user.setEmail("123123@163.com");
+        user.setName("张思思");
+        user.setPhone("12345678903");
+        user.setAccountNoExpired(1);
+        user.setAccountNoExpired(1);
+        user.setAccountNoLocked(0);
+        user.setAccountEnabled(0);
+        user.setEditBy(1);
+        user.setEditTime(new Date());
+        int result = userMapper.updateUserById(user);
+        Assertions.assertEquals(1, result);
+    }
 
     @Test
     public void addUserTest() {
@@ -61,7 +81,8 @@ class UserMapperTest {
     @Test
     public void selectUserListByPageTest() {
         Page page = PageUtils.getPage(1);
-        List<User> userList = userMapper.selectUserListByPage(page);
+        BaseQuery query = new BaseQuery();
+        List<User> userList = userMapper.selectUserListByPage(query, page);
         Assertions.assertNotNull(userList);
         log.info("userList:" + userList);
     }

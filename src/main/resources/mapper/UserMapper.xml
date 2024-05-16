@@ -48,6 +48,15 @@
         account_enabled,create_time,create_by,
         edit_time,edit_by,last_login_time
     </sql>
+
+    <delete id="batchDeleteByIds">
+        delete from t_user
+        where id in
+        <foreach collection="userIds" open="(" close=")" separator="," item="userId">
+            #{userId}
+        </foreach>
+    </delete>
+
     <insert id="addUser">
         insert into t_user(login_act,login_pwd,
                            name,phone,email,
@@ -57,21 +66,38 @@
                             #{user.accountNoExpired}, #{user.credentialsNoExpired}, #{user.accountNoLocked},
                             #{user.accountEnabled}, #{user.createTime}, #{user.createBy})
     </insert>
+    <update id="updateUserById">
+        update t_user set login_act = #{user.loginAct}, name = #{user.name}, phone = #{user.phone},
+                          email = #{user.email}, account_no_expired = #{user.accountNoExpired},
+                          credentials_no_expired = #{user.credentialsNoExpired}, account_no_locked = #{user.accountNoLocked},
+                          account_enabled = #{user.accountEnabled}, edit_time = #{user.editTime}, edit_by = #{user.editBy}
+            <if test="user.loginPwd != null and user.loginPwd != ''">
+                ,login_pwd = #{user.loginPwd}
+            </if>
+        where id = #{user.id}
+    </update>
+
     <select id="getUserByName" resultType="com.work.ykserver.ykapps.pojo.User">
         select <include refid="Base_Column_List"/>
         from t_user
         where login_act = #{username}
     </select>
+
     <select id="selectUserListByPage" resultType="com.work.ykserver.ykapps.pojo.User">
         select <include refid="Base_Column_List"></include>
-        from t_user
-        order by id asc
+        from t_user tu
+        <where>
+            ${query.filterSQL}
+        </where>
+        order by tu.id asc
         limit #{page.pageNum}, #{page.pageSize}
     </select>
+
     <select id="selectRowCount" resultType="java.lang.Integer">
         select count(*)
         from t_user
     </select>
+
     <select id="selectUserDetailById" resultType="com.work.ykserver.ykapps.pojo.User">
         select u1.id, u1.login_act, u1.login_pwd,
                u1.name, u1.phone, u1.email,

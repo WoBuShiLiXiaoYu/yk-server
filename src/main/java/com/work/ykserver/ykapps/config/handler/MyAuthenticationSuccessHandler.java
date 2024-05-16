@@ -3,6 +3,7 @@ package com.work.ykserver.ykapps.config.handler;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.json.JSONUtil;
 import com.work.ykserver.ykapps.Constant.RedisConstants;
+import com.work.ykserver.ykapps.Constant.RequestConstants;
 import com.work.ykserver.ykapps.util.*;
 import com.work.ykserver.ykapps.vo.Result;
 import com.work.ykserver.ykapps.vo.SecurityUser;
@@ -32,7 +33,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 获取当前用户信息
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        log.info("securityUser: " + securityUser);
+        log.info("token SecurityUser: " + securityUser);
 
         // 登录成功生成 jwt
         //String userJson = JSONUtils.toJSON(securityUser);
@@ -52,7 +53,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         // 将 jwt 存储到 redis 中
         redisUtils.setRedisValue(RedisConstants.REDIS_JWT_KEY + securityUser.getUser().getId(), jwt);
         // 是否免登录
-        String rememberMe = request.getParameter("rememberMe");
+        String rememberMe = request.getParameter(RequestConstants.PARAM_REMEMBER);
         if (Boolean.parseBoolean(rememberMe)) {
             redisUtils.expire(RedisConstants.REDIS_JWT_KEY + securityUser.getUser().getId(),
                     RedisConstants.EXPIRE_TIME, TimeUnit.SECONDS);

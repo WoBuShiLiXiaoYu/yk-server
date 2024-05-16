@@ -53,8 +53,8 @@ public class UserController {
         return ResultUtils.success(CodeEnum.OK.getCode(), "", page);
     }
 
-    @GetMapping("/userDetailInfo/{id}")
-    public Result getUserDetailInfo(@PathVariable(value = "id") Integer id) {
+    @GetMapping("/userDetailInfo")
+    public Result getUserDetailInfo(@RequestParam(value = "id") Integer id) {
         if (id == null) {
             return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
         }
@@ -63,11 +63,37 @@ public class UserController {
     }
 
     @PostMapping("/userSave")
-    public Result userSave(UserQuery userQuery) {
+    public Result userSave(UserQuery userQuery, @RequestHeader(value = "authorization") String token) {
         if (ObjectUtil.isEmpty(userQuery)) {
             return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
         }
+        userQuery.setToken(token);
         return userService.userSave(userQuery);
+    }
+
+    @PutMapping("/editUserInfo")
+    public Result editUser(UserQuery userQuery, @RequestHeader(value = "authorization") String token) {
+        if (ObjectUtil.isEmpty(userQuery)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        userQuery.setToken(token);
+        return userService.userEdit(userQuery);
+    }
+
+    @DeleteMapping("/deleteUser")
+    public Result deleteUser(@RequestParam(value = "id") Integer id) {
+        if (ObjectUtil.isEmpty(id)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        return userService.deleteUserById(id);
+    }
+
+    @DeleteMapping("/batchDeleteUser")
+    public Result batchDeleteUser(@RequestParam(value = "ids") String[] ids) {
+        if (ObjectUtil.isEmpty(ids)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        return userService.deleteUserByIds(ids);
     }
 
 }

@@ -14,7 +14,10 @@ public enum CodeEnum {
     LOGOUT_SUCCESS(00000, "退出成功！"),
     GET_USER_LIST_IS_NULL(30001, "查询用户列表为空！"),
     SAVE_USER_FAIL(30002, "新增用户失败！"),
-    PARAMETERS_IS_NULL(30100, "请求参数为空！")
+    EDIT_USER_FAIL(30003, "修改用户失败！"),
+    DELETE_USER_FAIL(30004, "删除用户失败！"),
+    PARAMETERS_IS_NULL(30100, "请求参数为空！"),
+    DATA_ACCESS_EXCEPTION(10001, "数据库操作失败！")
     ;
 
     private final int code;
