@@ -1,6 +1,6 @@
 package com.work.ykserver.ykapps.config;
 
-import com.work.ykserver.ykapps.Constant.RequestConstants;
+import com.work.ykserver.ykapps.constant.RequestConstants;
 import com.work.ykserver.ykapps.config.filter.TokenVerifyFilter;
 import com.work.ykserver.ykapps.config.handler.MyAuthenticationFailureHandler;
 import com.work.ykserver.ykapps.config.handler.MyAuthenticationSuccessHandler;
@@ -12,15 +12,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.Resource;
-import java.sql.Array;
 import java.util.Arrays;
 
 @Configuration

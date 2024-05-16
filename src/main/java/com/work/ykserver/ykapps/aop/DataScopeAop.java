@@ -1,21 +1,17 @@
 package com.work.ykserver.ykapps.aop;
 
-import com.work.ykserver.ykapps.Constant.RequestConstants;
+import com.work.ykserver.ykapps.constant.RequestConstants;
 import com.work.ykserver.ykapps.common.DataScope;
 import com.work.ykserver.ykapps.pojo.User;
 import com.work.ykserver.ykapps.query.BaseQuery;
 import com.work.ykserver.ykapps.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

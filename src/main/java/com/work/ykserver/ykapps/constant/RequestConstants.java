@@ -1,4 +1,4 @@
-package com.work.ykserver.ykapps.Constant;
+package com.work.ykserver.ykapps.constant;
 
 public class RequestConstants {
     public static final String LOGIN_URI = "/api/user/login";

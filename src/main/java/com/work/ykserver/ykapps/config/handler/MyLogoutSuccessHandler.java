@@ -1,6 +1,6 @@
 package com.work.ykserver.ykapps.config.handler;
 
-import com.work.ykserver.ykapps.Constant.RedisConstants;
+import com.work.ykserver.ykapps.constant.RedisConstants;
 import com.work.ykserver.ykapps.common.CodeEnum;
 import com.work.ykserver.ykapps.util.JSONUtils;
 import com.work.ykserver.ykapps.util.RedisUtils;

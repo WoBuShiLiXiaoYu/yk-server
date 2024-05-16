@@ -1,4 +1,4 @@
-package com.work.ykserver.ykapps.Constant;
+package com.work.ykserver.ykapps.constant;
 
 public class PageConstants {
     // 每页显示记录条数

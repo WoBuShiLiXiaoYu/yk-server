@@ -2,10 +2,7 @@ package com.work.ykserver.ykapps.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.work.ykserver.ykapps.Constant.PageConstants;
-import com.work.ykserver.ykapps.Constant.RedisConstants;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.CodeEnum;
 import com.work.ykserver.ykapps.mapper.PermissionMapper;
@@ -15,15 +12,12 @@ import com.work.ykserver.ykapps.query.BaseQuery;
 import com.work.ykserver.ykapps.query.UserQuery;
 import com.work.ykserver.ykapps.service.UserService;
 import com.work.ykserver.ykapps.mapper.UserMapper;
-import com.work.ykserver.ykapps.util.JSONUtils;
 import com.work.ykserver.ykapps.util.JWTUtils;
 import com.work.ykserver.ykapps.util.PageUtils;
 import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.Result;
 import com.work.ykserver.ykapps.vo.SecurityUser;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**

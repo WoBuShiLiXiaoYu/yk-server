@@ -1,9 +1,8 @@
 package com.work.ykserver.ykapps.config.filter;
 
 import cn.hutool.core.util.StrUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.work.ykserver.ykapps.Constant.RedisConstants;
-import com.work.ykserver.ykapps.Constant.RequestConstants;
+import com.work.ykserver.ykapps.constant.RedisConstants;
+import com.work.ykserver.ykapps.constant.RequestConstants;
 import com.work.ykserver.ykapps.common.CodeEnum;
 import com.work.ykserver.ykapps.pojo.User;
 import com.work.ykserver.ykapps.util.*;
@@ -14,7 +13,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

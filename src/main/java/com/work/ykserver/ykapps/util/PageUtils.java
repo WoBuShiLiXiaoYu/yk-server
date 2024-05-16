@@ -1,6 +1,6 @@
 package com.work.ykserver.ykapps.util;
 
-import com.work.ykserver.ykapps.Constant.PageConstants;
+import com.work.ykserver.ykapps.constant.PageConstants;
 import com.work.ykserver.ykapps.bo.Page;
 
 import java.util.List;
