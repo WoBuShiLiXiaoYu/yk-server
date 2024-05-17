@@ -85,7 +85,7 @@
 
     <select id="selectUserListByPage" resultType="com.work.ykserver.ykapps.pojo.User">
         select <include refid="Base_Column_List"></include>
-        from t_user tu
+        from t_user as tu
         <where>
             ${query.filterSQL}
         </where>
@@ -95,7 +95,10 @@
 
     <select id="selectRowCount" resultType="java.lang.Integer">
         select count(*)
-        from t_user
+        from t_user as tu
+        <where>
+            ${query.filterSQL}
+        </where>
     </select>
 
     <select id="selectUserDetailById" resultType="com.work.ykserver.ykapps.pojo.User">
@@ -110,5 +113,10 @@
         left outer join t_user as u3
         on u1.edit_by = u3.id
         where u1.id = #{id}
+    </select>
+
+    <select id="selectUserList" resultType="com.work.ykserver.ykapps.pojo.User">
+        select id, name
+        from t_user;
     </select>
 </mapper>

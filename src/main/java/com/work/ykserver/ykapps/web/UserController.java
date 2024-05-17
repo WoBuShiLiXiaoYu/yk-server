@@ -96,4 +96,9 @@ public class UserController {
         return userService.deleteUserByIds(ids);
     }
 
+    @GetMapping("/getOwner")
+    public Result getOwner() {
+        return userService.getOwnerList();
+    }
+
 }

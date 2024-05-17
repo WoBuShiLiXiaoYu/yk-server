@@ -74,7 +74,7 @@ class UserMapperTest {
 
     @Test
     public void selectRowCount() {
-        Integer count = userMapper.selectRowCount();
+        Integer count = userMapper.selectRowCount(new BaseQuery());
         Assertions.assertEquals(25, count);
     }
 

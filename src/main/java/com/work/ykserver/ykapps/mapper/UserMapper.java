@@ -28,7 +28,8 @@ public interface UserMapper extends BaseMapper<User> {
     //tu.id =
     List<User> selectUserListByPage(@Param("query") BaseQuery query, @Param("page") Page page);
 
-    Integer selectRowCount();
+    @DataScope(myTableAlias = "tu", myTableField = "id")
+    Integer selectRowCount(@Param("query") BaseQuery query);
 
     User selectUserDetailById(@Param("id") Integer id);
 
@@ -37,6 +38,8 @@ public interface UserMapper extends BaseMapper<User> {
     int updateUserById(@Param("user") User user);
 
     int batchDeleteByIds(@Param("userIds") List<Integer> userIds);
+
+    List<User> selectUserList();
 }
 
 

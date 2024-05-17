@@ -26,4 +26,6 @@ public interface UserService  extends IService<User>{
     Result deleteUserById(Integer id);
 
     Result deleteUserByIds(String[] ids);
+
+    Result getOwnerList();
 }

@@ -5,6 +5,8 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.CodeEnum;
+import com.work.ykserver.ykapps.constant.RedisConstants;
+import com.work.ykserver.ykapps.manager.RedisManager;
 import com.work.ykserver.ykapps.mapper.PermissionMapper;
 import com.work.ykserver.ykapps.mapper.RoleMapper;
 import com.work.ykserver.ykapps.pojo.User;
@@ -12,6 +14,7 @@ import com.work.ykserver.ykapps.query.BaseQuery;
 import com.work.ykserver.ykapps.query.UserQuery;
 import com.work.ykserver.ykapps.service.UserService;
 import com.work.ykserver.ykapps.mapper.UserMapper;
+import com.work.ykserver.ykapps.util.CacheUtils;
 import com.work.ykserver.ykapps.util.JWTUtils;
 import com.work.ykserver.ykapps.util.PageUtils;
 import com.work.ykserver.ykapps.util.ResultUtils;
@@ -52,6 +55,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private RoleMapper roleMapper;
     @Resource
     private PasswordEncoder passwordEncoder;
+    @Resource
+    private RedisManager redisManager;
 
     /**
      * 登录查询
@@ -110,7 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 查询用户列表
         List<User> userList = userMapper.selectUserListByPage(query, page);
         // 查询总行数
-        Integer total = userMapper.selectRowCount();
+        Integer total = userMapper.selectRowCount(query);
         // 设置 page
         page = PageUtils.pageSetting(page, userList, total);
 
@@ -178,6 +183,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return ResultUtils.fail(CodeEnum.DELETE_USER_FAIL);
         }
         return ResultUtils.success(CodeEnum.OK);
+    }
+
+    @Override
+    public Result getOwnerList() {
+        // 从 redis 中获取用户姓名
+        // redis 中没有缓存用户姓名则从数据库中获取
+        // 设置有效期缓存进 redis
+        List<User> list = CacheUtils.getCacheData(() -> {
+                    // 为缓存生产者提供数据
+                    return redisManager.getValue(RedisConstants.REDIS_CACHE_KEY);
+                },
+                () -> {
+                    // 为数据库生产者提供数据
+                    return userMapper.selectUserList();
+                },
+                (t) -> {
+                    // 为缓存消费者提供数据
+                    redisManager.setValue(RedisConstants.REDIS_CACHE_KEY, t);
+                });
+        return ResultUtils.success(list);
     }
 }
 

@@ -13,6 +13,7 @@ public enum CodeEnum {
     TOKEN_IS_NONE_MATCH(40601, "token 不一致"),
     LOGOUT_SUCCESS(00000, "退出成功！"),
     GET_USER_LIST_IS_NULL(30001, "查询用户列表为空！"),
+    GET_ACTIVITY_LIST_IS_NULL(30101, "查询活动列表为空！"),
     SAVE_USER_FAIL(30002, "新增用户失败！"),
     EDIT_USER_FAIL(30003, "修改用户失败！"),
     DELETE_USER_FAIL(30004, "删除用户失败！"),

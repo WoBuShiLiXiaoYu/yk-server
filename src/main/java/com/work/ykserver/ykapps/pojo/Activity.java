@@ -85,6 +85,8 @@ public class Activity implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+    private String ownerName;
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {

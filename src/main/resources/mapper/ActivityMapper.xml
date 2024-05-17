@@ -18,10 +18,35 @@
             <result property="editBy" column="edit_by" jdbcType="INTEGER"/>
     </resultMap>
 
+
     <sql id="Base_Column_List">
         id,owner_id,name,
         start_time,end_time,cost,
         description,create_time,create_by,
         edit_time,edit_by
     </sql>
+
+    <select id="selectActivityListByPage" resultType="com.work.ykserver.ykapps.pojo.Activity">
+        select ta.id, tu.name as ownerName, ta.name,
+        ta.start_time, ta.end_time, ta.cost,
+        ta. description, ta.create_time, ta.create_by,
+        ta.edit_time, ta.edit_by
+        from t_activity as ta
+        left outer join t_user as tu
+        on ta.owner_id = tu.id
+        <where>
+            ${query.filterSQL}
+        </where>
+        order by ta.id asc
+        limit #{page.pageNum}, #{page.pageSize}
+    </select>
+
+    <select id="selectRowCount" resultType="java.lang.Integer">
+        select count(*)
+        from t_activity as ta
+        <where>
+            ${query.filterSQL}
+        </where>
+    </select>
+
 </mapper>

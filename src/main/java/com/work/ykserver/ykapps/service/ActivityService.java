@@ -1,7 +1,9 @@
 package com.work.ykserver.ykapps.service;
 
+import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.pojo.Activity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.query.BaseQuery;
 
 /**
 * @author 胡国海
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ActivityService extends IService<Activity> {
 
+    Page getActivityListByPage(Integer currentPage);
 }
