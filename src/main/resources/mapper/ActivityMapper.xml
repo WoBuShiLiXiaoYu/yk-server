@@ -26,15 +26,40 @@
         edit_time,edit_by
     </sql>
 
+    <update id="updateActivity">
+        update t_activity set owner_id = #{activity.ownerId}, name = #{activity.name},
+                              start_time = #{activity.startTime}, end_time = #{activity.endTime}, cost = #{activity.cost},
+                              description = #{activity.description}, edit_time = #{activity.editTime}, edit_by = #{activity.editBy}
+        where id = #{activity.id}
+    </update>
+
     <select id="selectActivityListByPage" resultType="com.work.ykserver.ykapps.pojo.Activity">
         select ta.id, tu.name as ownerName, ta.name,
         ta.start_time, ta.end_time, ta.cost,
-        ta. description, ta.create_time, ta.create_by,
+        ta.description, ta.create_time, ta.create_by,
         ta.edit_time, ta.edit_by
         from t_activity as ta
         left outer join t_user as tu
         on ta.owner_id = tu.id
         <where>
+            <if test="query.ownerId != null and query.ownerId != ''">
+                and tu.id = #{query.ownerId}
+            </if>
+            <if test="query.name != null and query.name != ''">
+                and ta.name like concat('%', #{query.name}, '%')
+            </if>
+            <if test="query.cost != null and query.cost != ''">
+                <![CDATA[ and ta.cost <= #{query.cost} ]]>
+            </if>
+            <if test="query.createTime != null and query.createTime != ''">
+                and ta.create_time >= #{query.createTime}
+            </if>
+            <if test="query.startTime != null and query.startTime != ''">
+                and ta.start_time >= #{query.startTime}
+            </if>
+            <if test="query.endTime != null and query.endTime != ''">
+                <![CDATA[ and ta.end_time <= #{query.endTime} ]]>
+            </if>
             ${query.filterSQL}
         </where>
         order by ta.id asc
@@ -45,8 +70,41 @@
         select count(*)
         from t_activity as ta
         <where>
+            <if test="query.ownerId != null and query.ownerId != ''">
+                and ta.id = #{query.ownerId}
+            </if>
+            <if test="query.name != null and query.name != ''">
+                and ta.name like concat('%', #{query.name}, '%')
+            </if>
+            <if test="query.cost != null and query.cost != ''">
+                and ta.cost like concat('%', #{query.cost}, '%')
+            </if>
+            <if test="query.createTime != null and query.createTime != ''">
+                and ta.create_time = #{query.createTime}
+            </if>
+            <if test="query.startTime != null and query.startTime != ''">
+                and ta.start_time >= #{query.startTime}
+            </if>
+            <if test="query.endTime != null and query.endTime != ''">
+                <![CDATA[ and ta.end_time <= #{query.endTime} ]]>
+            </if>
             ${query.filterSQL}
         </where>
+    </select>
+
+    <select id="selectActivityDetailInfoById" resultType="com.work.ykserver.ykapps.pojo.Activity">
+        select ta.id, tu1.name as ownerName, ta.name,
+               ta.start_time, ta.end_time, ta.cost,
+               ta.description, ta.create_time, tu2.name as createName,
+               ta.edit_time, tu3.name as editName
+        from t_activity as ta
+        left outer join t_user as tu1
+        on ta.owner_id = tu1.id
+        left outer join t_user as tu2
+        on ta.create_by = tu2.id
+        left outer join t_user as tu3
+        on ta.edit_by = tu3.id
+        where ta.id = #{id}
     </select>
 
 </mapper>

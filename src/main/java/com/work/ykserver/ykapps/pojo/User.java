@@ -107,9 +107,13 @@ public class User implements Serializable {
     @TableField(value = "last_login_time")
     private Date lastLoginTime;
 
+    @TableField(exist = false)
     private String createName;
+    @TableField(exist = false)
     private String editName;
+    @TableField(exist = false)
     private List<String> roleList;
+    @TableField(exist = false)
     private List<String> permissionList;
 
     @TableField(exist = false)

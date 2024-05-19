@@ -20,4 +20,9 @@
         create_time,create_by,edit_time,
         edit_by,deleted
     </sql>
+
+    <insert id="insertActivityRemark">
+        insert into t_activity_remark (activity_id, note_content, create_time, create_by)
+        values (#{activityRemark.activityId}, #{activityRemark.noteContent}, #{activityRemark.createTime}, #{activityRemark.createBy})
+    </insert>
 </mapper>

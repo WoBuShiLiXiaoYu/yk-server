@@ -3,6 +3,7 @@ package com.work.ykserver.ykapps.web;
 import cn.hutool.core.util.ObjectUtil;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.CodeEnum;
+import com.work.ykserver.ykapps.constant.RequestConstants;
 import com.work.ykserver.ykapps.pojo.User;
 import com.work.ykserver.ykapps.query.UserQuery;
 import com.work.ykserver.ykapps.service.UserService;
@@ -63,7 +64,7 @@ public class UserController {
     }
 
     @PostMapping("/userSave")
-    public Result userSave(UserQuery userQuery, @RequestHeader(value = "authorization") String token) {
+    public Result userSave(UserQuery userQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
         if (ObjectUtil.isEmpty(userQuery)) {
             return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
         }
@@ -72,7 +73,7 @@ public class UserController {
     }
 
     @PutMapping("/editUserInfo")
-    public Result editUser(UserQuery userQuery, @RequestHeader(value = "authorization") String token) {
+    public Result editUser(UserQuery userQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
         if (ObjectUtil.isEmpty(userQuery)) {
             return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
         }

@@ -3,13 +3,12 @@ package com.work.ykserver.ykapps.web;
 import cn.hutool.core.util.ObjectUtil;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.CodeEnum;
+import com.work.ykserver.ykapps.constant.RequestConstants;
+import com.work.ykserver.ykapps.query.ActivityQuery;
 import com.work.ykserver.ykapps.service.ActivityService;
 import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -22,15 +21,49 @@ public class ActivityController {
 
     @GetMapping("/activityList")
     public Result getActivityList(@RequestParam(value = "currentPage", required = false)
-                                  Integer currentPage) {
+                                  Integer currentPage, ActivityQuery activityQuery) {
         // 判断当前页是否有值
         if (currentPage == null) {
             currentPage = 1;
         }
-        Page page = activityService.getActivityListByPage(currentPage);
+        Page page = activityService.getActivityListByPage(currentPage, activityQuery);
         if (ObjectUtil.isEmpty(page)) {
             return ResultUtils.fail(CodeEnum.GET_ACTIVITY_LIST_IS_NULL);
         }
         return ResultUtils.success(CodeEnum.OK.getCode(), "", page);
+    }
+
+    @PostMapping("/addActivity")
+    public Result addActivity(ActivityQuery activityQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
+        if (ObjectUtil.isEmpty(activityQuery)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        activityQuery.setToken(token);
+        return activityService.saveActivity(activityQuery);
+    }
+
+    @GetMapping("/getActivityInfo/{id}")
+    public Result getActivityInfo(@PathVariable(value = "id") Integer id) {
+        if (ObjectUtil.isEmpty(id)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        return activityService.getActivityById(id);
+    }
+
+    @PutMapping("/editActivity")
+    public Result editActivity(ActivityQuery activityQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
+        if (ObjectUtil.isEmpty(activityQuery)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        activityQuery.setToken(token);
+        return activityService.editActivity(activityQuery);
+    }
+
+    @GetMapping("/activityDetailInfo/{id}")
+    public Result getActivityDetailInfo(@PathVariable(value = "id") Integer id) {
+        if (ObjectUtil.isEmpty(id)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        return activityService.getActivityDetailInfoById(id);
     }
 }

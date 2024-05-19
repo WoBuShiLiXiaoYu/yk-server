@@ -2,6 +2,8 @@ package com.work.ykserver.ykapps.service;
 
 import com.work.ykserver.ykapps.pojo.ActivityRemark;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.query.ActivityRemarkQuery;
+import com.work.ykserver.ykapps.vo.Result;
 
 /**
 * @author 胡国海
@@ -10,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ActivityRemarkService extends IService<ActivityRemark> {
 
+    Result saveActivityRemark(ActivityRemarkQuery activityRemarkQuery);
 }

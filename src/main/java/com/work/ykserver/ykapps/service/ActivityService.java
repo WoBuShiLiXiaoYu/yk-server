@@ -3,7 +3,9 @@ package com.work.ykserver.ykapps.service;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.pojo.Activity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.query.ActivityQuery;
 import com.work.ykserver.ykapps.query.BaseQuery;
+import com.work.ykserver.ykapps.vo.Result;
 
 /**
 * @author 胡国海
@@ -12,5 +14,13 @@ import com.work.ykserver.ykapps.query.BaseQuery;
 */
 public interface ActivityService extends IService<Activity> {
 
-    Page getActivityListByPage(Integer currentPage);
+    Page getActivityListByPage(Integer currentPage, ActivityQuery query);
+
+    Result saveActivity(ActivityQuery activityQuery);
+
+    Result getActivityById(Integer id);
+
+    Result editActivity(ActivityQuery activityQuery);
+
+    Result getActivityDetailInfoById(Integer id);
 }

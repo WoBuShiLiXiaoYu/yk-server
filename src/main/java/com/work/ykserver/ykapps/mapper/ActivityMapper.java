@@ -4,7 +4,9 @@ import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.DataScope;
 import com.work.ykserver.ykapps.pojo.Activity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.work.ykserver.ykapps.query.ActivityQuery;
 import com.work.ykserver.ykapps.query.BaseQuery;
+import com.work.ykserver.ykapps.vo.Result;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,11 +20,14 @@ import java.util.List;
 public interface ActivityMapper extends BaseMapper<Activity> {
 
     @DataScope(myTableAlias = "ta", myTableField = "owner_id")
-    List<Activity> selectActivityListByPage(@Param("query") BaseQuery query, @Param("page") Page page);
+    List<Activity> selectActivityListByPage(@Param("query") ActivityQuery query, @Param("page") Page page);
 
     @DataScope(myTableAlias = "ta", myTableField = "owner_id")
-    int selectRowCount(@Param("query") BaseQuery query);
+    int selectRowCount(@Param("query") ActivityQuery query);
 
+    int updateActivity(@Param("activity") Activity activity);
+
+    Activity selectActivityDetailInfoById(@Param("id") Integer id);
 }
 
 

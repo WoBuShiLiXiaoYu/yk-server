@@ -85,7 +85,12 @@ public class Activity implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
+    @TableField(exist = false)
     private String ownerName;
+    @TableField(exist = false)
+    private String createName;
+    @TableField(exist = false)
+    private String editName;
 
     @Override
     public boolean equals(Object that) {

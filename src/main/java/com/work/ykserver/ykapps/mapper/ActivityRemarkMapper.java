@@ -2,6 +2,8 @@ package com.work.ykserver.ykapps.mapper;
 
 import com.work.ykserver.ykapps.pojo.ActivityRemark;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.work.ykserver.ykapps.query.ActivityRemarkQuery;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author 胡国海
@@ -10,6 +12,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.work.ykserver.ykapps.pojo.ActivityRemark
 */
 public interface ActivityRemarkMapper extends BaseMapper<ActivityRemark> {
+
+    int insertActivityRemark(@Param("activityRemark") ActivityRemark activityRemark);
 
 }
 
