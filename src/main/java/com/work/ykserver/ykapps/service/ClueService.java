@@ -2,6 +2,7 @@ package com.work.ykserver.ykapps.service;
 
 import com.work.ykserver.ykapps.pojo.Clue;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.vo.Result;
 
 /**
 * @author 胡国海
@@ -9,5 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-05-09 21:34:33
 */
 public interface ClueService extends IService<Clue> {
+
+    Result getClueListByPage(Integer currentPage);
 
 }

@@ -15,10 +15,14 @@ import com.work.ykserver.ykapps.util.PageUtils;
 import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.Result;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * @author 胡国海
@@ -68,7 +72,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     }
 
     @Override
-    public Result editActivity(ActivityQuery activityQuery) {
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Result editActivity(ActivityQuery activityQuery) throws Exception {
         // 解析 token
         User loginUser = JWTUtils.parseUserFromJWT(activityQuery.getToken());
         Activity activity = new Activity();
@@ -76,8 +81,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         activity.setEditBy(loginUser.getId());
         activity.setEditTime(new Date());
         int result = activityMapper.updateActivity(activity);
-        if (result < 1) {
-            return ResultUtils.fail(CodeEnum.EDIT_ACTIVITY_FAIL);
+        if (result != 1) {
+            throw new Exception("更新市场活动信息失败！");
         }
         return ResultUtils.success(CodeEnum.OK);
     }
@@ -86,6 +91,25 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     public Result getActivityDetailInfoById(Integer id) {
         Activity activity = activityMapper.selectActivityDetailInfoById(id);
         return ResultUtils.success(activity);
+    }
+
+    @Override
+    public Result deleteActivityById(Integer id) {
+        int result = activityMapper.deleteById(id);
+        if (result != 1) {
+            return ResultUtils.fail(CodeEnum.DELETE_ACTIVITY_FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
+    }
+
+    @Override
+    public Result batchDeleteActivityByIds(String[] ids) {
+        List<Integer> activityIds = Arrays.stream(ids).map(Integer::parseInt).collect(Collectors.toList());
+        int result = activityMapper.batchDeleteByIds(activityIds);
+        if (result != activityIds.size()) {
+            return ResultUtils.fail(CodeEnum.DELETE_ACTIVITY_FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
     }
 }
 

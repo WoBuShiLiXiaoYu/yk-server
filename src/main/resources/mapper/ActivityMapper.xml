@@ -33,6 +33,14 @@
         where id = #{activity.id}
     </update>
 
+    <delete id="batchDeleteByIds">
+        delete from t_activity
+        where id in
+        <foreach collection="activityIds" open="(" close=")" separator="," item="activityId">
+            #{activityId}
+        </foreach>
+    </delete>
+
     <select id="selectActivityListByPage" resultType="com.work.ykserver.ykapps.pojo.Activity">
         select ta.id, tu.name as ownerName, ta.name,
         ta.start_time, ta.end_time, ta.cost,

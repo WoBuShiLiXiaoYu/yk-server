@@ -27,6 +27,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -146,7 +148,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Result userEdit(UserQuery userQuery) {
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Result userEdit(UserQuery userQuery) throws Exception {
         // 从 token 中解析登录用户
         User loginUser = JWTUtils.parseUserFromJWT(userQuery.getToken());
         // 转换 User 对象
@@ -160,8 +163,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setEditBy(loginUser.getId());
         user.setEditTime(new Date());
         int result = userMapper.updateUserById(user);
-        if (!(result >=1)) {
-            return ResultUtils.fail(CodeEnum.EDIT_USER_FAIL);
+        if (result != 1) {
+            throw new Exception("更新用户失败！");
         }
         return ResultUtils.success(CodeEnum.OK);
     }

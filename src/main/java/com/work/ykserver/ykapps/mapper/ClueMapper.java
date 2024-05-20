@@ -1,7 +1,13 @@
 package com.work.ykserver.ykapps.mapper;
 
+import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.pojo.Clue;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.work.ykserver.ykapps.query.ClueQuery;
+import com.work.ykserver.ykapps.vo.ClueVO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 胡国海
@@ -10,6 +16,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.work.ykserver.ykapps.pojo.Clue
 */
 public interface ClueMapper extends BaseMapper<Clue> {
+
+    List<ClueVO> selectClueListByPage(@Param("query") ClueQuery query, @Param("page") Page page);
+
+    int getCountByPage(@Param("query") ClueQuery query);
 
 }
 

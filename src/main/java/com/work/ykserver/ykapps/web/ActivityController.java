@@ -51,7 +51,7 @@ public class ActivityController {
     }
 
     @PutMapping("/editActivity")
-    public Result editActivity(ActivityQuery activityQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
+    public Result editActivity(ActivityQuery activityQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) throws Exception {
         if (ObjectUtil.isEmpty(activityQuery)) {
             return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
         }
@@ -65,5 +65,21 @@ public class ActivityController {
             return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
         }
         return activityService.getActivityDetailInfoById(id);
+    }
+
+    @DeleteMapping("/deleteActivity")
+    public Result deleteActivity(@RequestParam(value = "id") Integer id) {
+        if (ObjectUtil.isEmpty(id)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        return activityService.deleteActivityById(id);
+    }
+
+    @DeleteMapping("/batchDeleteActivity")
+    public Result batchDeleteActivity(@RequestParam(value = "ids") String[] ids) {
+        if (ObjectUtil.isEmpty(ids)) {
+            return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
+        }
+        return activityService.batchDeleteActivityByIds(ids);
     }
 }

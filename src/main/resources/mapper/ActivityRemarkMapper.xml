@@ -25,4 +25,36 @@
         insert into t_activity_remark (activity_id, note_content, create_time, create_by)
         values (#{activityRemark.activityId}, #{activityRemark.noteContent}, #{activityRemark.createTime}, #{activityRemark.createBy})
     </insert>
+
+    <update id="updateNoteContentById">
+        update t_activity_remark set note_content = #{activityRemark.noteContent}, edit_time = #{activityRemark.editTime},
+                                          edit_by = #{activityRemark.editBy}
+        where id = #{activityRemark.id}
+    </update>
+
+    <select id="selectListForPageById" resultType="com.work.ykserver.ykapps.pojo.ActivityRemark">
+        select tar.id, tar.activity_id, tar.note_content,
+               tar.create_time, tu1.name as createName, tar.edit_time,
+               tu2.name as editName, tar.deleted
+        from t_activity_remark as tar
+        left outer join t_user as tu1
+        on tar.create_by = tu1.id
+        left outer join t_user as tu2
+        on tar.edit_by = tu2.id
+        <where>
+            tar.activity_id = #{activityRemarkQuery.activityId} and (tar.deleted is null or tar.deleted = 0)
+            ${activityRemarkQuery.filterSQL}
+        </where>
+        order by tar.create_time desc
+        limit #{page.pageNum}, #{page.pageSize}
+    </select>
+
+    <select id="selectCountById" resultType="java.lang.Integer">
+        select count(*)
+        from t_activity_remark as tar
+        <where>
+            tar.activity_id = #{activityRemarkQuery.activityId} and (tar.deleted is null or tar.deleted = 0)
+            ${activityRemarkQuery.filterSQL}
+        </where>
+    </select>
 </mapper>

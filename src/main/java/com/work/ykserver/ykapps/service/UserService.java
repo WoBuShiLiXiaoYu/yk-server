@@ -21,7 +21,7 @@ public interface UserService  extends IService<User>{
 
     Result userSave(UserQuery userQuery);
 
-    Result userEdit(UserQuery userQuery);
+    Result userEdit(UserQuery userQuery) throws Exception;
 
     Result deleteUserById(Integer id);
 

@@ -1,9 +1,7 @@
 package com.work.ykserver.ykapps.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
@@ -61,10 +59,16 @@ public class ActivityRemark implements Serializable {
      * 删除状态（0正常，1删除）
      */
     @TableField(value = "deleted")
+    @TableLogic
     private Integer deleted;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    @TableField(exist = false)
+    private String createName;
+    @TableField(exist = false)
+    private String editName;
 
     @Override
     public boolean equals(Object that) {

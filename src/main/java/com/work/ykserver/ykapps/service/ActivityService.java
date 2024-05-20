@@ -20,7 +20,11 @@ public interface ActivityService extends IService<Activity> {
 
     Result getActivityById(Integer id);
 
-    Result editActivity(ActivityQuery activityQuery);
+    Result editActivity(ActivityQuery activityQuery) throws Exception;
 
     Result getActivityDetailInfoById(Integer id);
+
+    Result deleteActivityById(Integer id);
+
+    Result batchDeleteActivityByIds(String[] ids);
 }

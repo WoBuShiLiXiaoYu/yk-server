@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @PutMapping("/editUserInfo")
-    public Result editUser(UserQuery userQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
+    public Result editUser(UserQuery userQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) throws Exception {
         if (ObjectUtil.isEmpty(userQuery)) {
             return ResultUtils.fail(CodeEnum.PARAMETERS_IS_NULL);
         }

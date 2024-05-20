@@ -13,4 +13,13 @@ import com.work.ykserver.ykapps.vo.Result;
 public interface ActivityRemarkService extends IService<ActivityRemark> {
 
     Result saveActivityRemark(ActivityRemarkQuery activityRemarkQuery);
+
+    Result getActivityRemarkListById(Integer id, Integer currentPage);
+
+    Result getNoteContentById(Integer id);
+
+    Result editActivityRemarkById(ActivityRemarkQuery activityRemarkQuery) throws Exception;
+
+    Result deleteActivityRemark(Integer id);
+
 }

@@ -28,6 +28,9 @@ public interface ActivityMapper extends BaseMapper<Activity> {
     int updateActivity(@Param("activity") Activity activity);
 
     Activity selectActivityDetailInfoById(@Param("id") Integer id);
+
+    int batchDeleteByIds(@Param("activityIds") List<Integer> activityIds);
+
 }
 
 
