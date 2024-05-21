@@ -1,7 +1,10 @@
 package com.work.ykserver.ykapps.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.work.ykserver.ykapps.bo.Page;
+import com.work.ykserver.ykapps.common.CodeEnum;
+import com.work.ykserver.ykapps.config.listener.UploadDataListener;
 import com.work.ykserver.ykapps.pojo.Clue;
 import com.work.ykserver.ykapps.query.ClueQuery;
 import com.work.ykserver.ykapps.service.ClueService;
@@ -14,6 +17,7 @@ import com.work.ykserver.ykapps.vo.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -40,6 +44,17 @@ public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue>
         page = PageUtils.pageSetting(page, clueList, total);
 
         return ResultUtils.success(page);
+    }
+
+    @Override
+    public Result importExcel(InputStream fileInputStream, String token) {
+        int before = clueMapper.selectCountAll();
+        EasyExcel.read(fileInputStream, Clue.class, new UploadDataListener(clueMapper, token)).sheet().doRead();
+        int after = clueMapper.selectCountAll();
+        if (after > before) {
+            return ResultUtils.success(CodeEnum.OK);
+        }
+        return ResultUtils.fail(CodeEnum.FAIL);
     }
 }
 

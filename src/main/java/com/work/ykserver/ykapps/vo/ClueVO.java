@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class ClueVO extends Clue {
+    private static final long serialVersionUID = 5066106390864151009L;
     /**
      * 负责人
      */

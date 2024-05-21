@@ -4,6 +4,8 @@ import com.work.ykserver.ykapps.pojo.Clue;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.work.ykserver.ykapps.vo.Result;
 
+import java.io.InputStream;
+
 /**
 * @author 胡国海
 * @description 针对表【t_clue(线索表)】的数据库操作Service
@@ -12,5 +14,8 @@ import com.work.ykserver.ykapps.vo.Result;
 public interface ClueService extends IService<Clue> {
 
     Result getClueListByPage(Integer currentPage);
+
+    Result importExcel(InputStream inputStream, String token);
+
 
 }

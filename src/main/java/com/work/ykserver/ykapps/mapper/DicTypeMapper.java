@@ -2,6 +2,9 @@ package com.work.ykserver.ykapps.mapper;
 
 import com.work.ykserver.ykapps.pojo.DicType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.work.ykserver.ykapps.vo.DicTypeVo;
+
+import java.util.List;
 
 /**
 * @author 胡国海
@@ -10,6 +13,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.work.ykserver.ykapps.pojo.DicType
 */
 public interface DicTypeMapper extends BaseMapper<DicType> {
+
+    List<DicTypeVo> selectAllDicData();
 
 }
 

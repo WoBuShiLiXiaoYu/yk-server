@@ -17,9 +17,13 @@ import java.util.List;
 */
 public interface ClueMapper extends BaseMapper<Clue> {
 
+    int saveClueByImport(@Param("cachedDataList") List<Clue> cachedDataList);
+
     List<ClueVO> selectClueListByPage(@Param("query") ClueQuery query, @Param("page") Page page);
 
     int getCountByPage(@Param("query") ClueQuery query);
+
+    int selectCountAll();
 
 }
 

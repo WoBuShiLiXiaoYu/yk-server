@@ -42,6 +42,22 @@
         create_by,edit_time,edit_by
     </sql>
 
+    <insert id="saveClueByImport">
+        insert into t_clue (owner_id, activity_id, full_name, appellation, phone,
+                            weixin, qq, email, age, job, year_income,
+                            address, need_loan, intention_state,
+                            intention_product, state, source,
+                            description, next_contact_time, create_time, create_by)
+                    values
+                    <foreach collection="cachedDataList" item="clue" separator=",">
+                        (#{clue.ownerId}, #{clue.activityId}, #{clue.fullName}, #{clue.appellation}, #{clue.phone},
+                        #{clue.weixin}, #{clue.qq}, #{clue.email}, #{clue.age}, #{clue.job}, #{clue.yearIncome},
+                         #{clue.address}, #{clue.needLoan}, #{clue.intentionState},
+                         #{clue.intentionProduct}, #{clue.state}, #{clue.source},
+                         #{clue.description}, #{clue.nextContactTime}, #{clue.createTime}, #{clue.createBy})
+                    </foreach>
+    </insert>
+
     <select id="selectClueListByPage" resultType="com.work.ykserver.ykapps.vo.ClueVO">
         select tc.id, tu.name as ownerName, ta.name as activityName,
                tc.full_name, tdv1.type_value as appellationName, tc.phone,
@@ -67,6 +83,11 @@
     <select id="getCountByPage" resultType="java.lang.Integer">
         select count(*)
         from t_clue as tc
+    </select>
+
+    <select id="selectCountAll" resultType="java.lang.Integer">
+        select count(*)
+        from t_clue
     </select>
 
 </mapper>

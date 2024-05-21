@@ -1,5 +1,7 @@
 package com.work.ykserver.ykapps.pojo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,12 +9,15 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.work.ykserver.ykapps.config.converter.*;
 import lombok.Data;
 
 /**
  * 线索表
  * @TableName t_clue
  */
+@ExcelIgnoreUnannotated // 没有加 @ExcelProperty 的字段不参与 Excel 读写
 @TableName(value ="t_clue")
 @Data
 public class Clue implements Serializable {
@@ -26,114 +31,133 @@ public class Clue implements Serializable {
      * 线索所属人ID
      */
     @TableField(value = "owner_id")
+    @ExcelProperty(value = "负责人")
     private Integer ownerId;
 
     /**
      * 活动ID
      */
     @TableField(value = "activity_id")
+    @ExcelProperty(value = "所属活动")
     private Integer activityId;
 
     /**
      * 姓名
      */
     @TableField(value = "full_name")
+    @ExcelProperty(value = "姓名")
     private String fullName;
 
     /**
      * 称呼
      */
     @TableField(value = "appellation")
+    @ExcelProperty(value = "称呼", converter = AppellationConverter.class)
     private Integer appellation;
 
     /**
      * 手机号
      */
     @TableField(value = "phone")
+    @ExcelProperty(value = "手机号")
     private String phone;
 
     /**
      * 微信号
      */
     @TableField(value = "weixin")
+    @ExcelProperty(value = "微信号")
     private String weixin;
 
     /**
      * QQ号
      */
     @TableField(value = "qq")
+    @ExcelProperty(value = "QQ号")
     private String qq;
 
     /**
      * 邮箱
      */
     @TableField(value = "email")
+    @ExcelProperty(value = "邮箱")
     private String email;
 
     /**
      * 年龄
      */
     @TableField(value = "age")
+    @ExcelProperty(value = "年龄")
     private Integer age;
 
     /**
      * 职业
      */
     @TableField(value = "job")
+    @ExcelProperty(value = "职业")
     private String job;
 
     /**
      * 年收入
      */
     @TableField(value = "year_income")
+    @ExcelProperty(value = "年收入")
     private BigDecimal yearIncome;
 
     /**
      * 地址
      */
     @TableField(value = "address")
+    @ExcelProperty(value = "地址")
     private String address;
 
     /**
      * 是否需要贷款（0不需要，1需要）
      */
     @TableField(value = "need_loan")
+    @ExcelProperty(value = "是否贷款", converter = NeedLoanConverter.class)
     private Integer needLoan;
 
     /**
      * 意向状态
      */
     @TableField(value = "intention_state")
+    @ExcelProperty(value = "意向状态", converter = IntentionStateConverter.class)
     private Integer intentionState;
 
     /**
      * 意向产品
      */
     @TableField(value = "intention_product")
+    @ExcelProperty(value = "意向产品", converter = IntentionProductConverter.class)
     private Integer intentionProduct;
 
     /**
      * 线索状态
      */
     @TableField(value = "state")
+    @ExcelProperty(value = "线索状态", converter = StateConverter.class)
     private Integer state;
 
     /**
      * 线索来源
      */
     @TableField(value = "source")
+    @ExcelProperty(value = "线索来源", converter = SourceConverter.class)
     private Integer source;
 
     /**
      * 线索描述
      */
     @TableField(value = "description")
+    @ExcelProperty(value = "线索描述")
     private String description;
 
     /**
      * 下次联系时间
      */
     @TableField(value = "next_contact_time")
+    @ExcelProperty(value = "下次联系时间")
     private Date nextContactTime;
 
     /**

@@ -23,4 +23,10 @@
         create_time,create_by,edit_time,
         edit_by
     </sql>
+
+    <select id="selectOnSalProductList" resultType="com.work.ykserver.ykapps.pojo.Product">
+        select <include refid="Base_Column_List"/>
+        from t_product
+        where state = 0
+    </select>
 </mapper>

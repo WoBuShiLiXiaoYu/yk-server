@@ -11,8 +11,25 @@
             <result property="remark" column="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap id="DicTypeVoResultMap" type="com.work.ykserver.ykapps.vo.DicTypeVo">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="typeCode" column="type_code" jdbcType="VARCHAR"/>
+        <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <collection property="dicValueList" ofType="com.work.ykserver.ykapps.pojo.DicValue">
+            <id property="id" column="tdvId"/>
+            <result property="typeValue" column="tdvTypeValue"/>
+        </collection>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,type_code,type_name,
         remark
     </sql>
+    <select id="selectAllDicData" resultMap="DicTypeVoResultMap">
+        select  tdt.*, tdv.type_value as tdvTypeValue, tdv.id as tdvId
+        from t_dic_type as tdt
+        left outer join t_dic_value as tdv
+        on tdt.type_code = tdv.type_code
+    </select>
 </mapper>

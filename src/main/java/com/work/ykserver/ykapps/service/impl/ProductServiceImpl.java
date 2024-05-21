@@ -6,6 +6,9 @@ import com.work.ykserver.ykapps.service.ProductService;
 import com.work.ykserver.ykapps.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 /**
 * @author 胡国海
 * @description 针对表【t_product(产品表)】的数据库操作Service实现
@@ -15,6 +18,13 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
     implements ProductService{
 
+    @Resource
+    private ProductMapper productMapper;
+
+    @Override
+    public List<Product> getOnSaleProductList() {
+        return productMapper.selectOnSalProductList();
+    }
 }
 
 
