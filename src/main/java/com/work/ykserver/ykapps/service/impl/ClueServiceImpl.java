@@ -1,23 +1,30 @@
 package com.work.ykserver.ykapps.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.CodeEnum;
 import com.work.ykserver.ykapps.config.listener.UploadDataListener;
 import com.work.ykserver.ykapps.pojo.Clue;
+import com.work.ykserver.ykapps.pojo.User;
 import com.work.ykserver.ykapps.query.ClueQuery;
 import com.work.ykserver.ykapps.service.ClueService;
 import com.work.ykserver.ykapps.mapper.ClueMapper;
+import com.work.ykserver.ykapps.util.JWTUtils;
 import com.work.ykserver.ykapps.util.PageUtils;
 import com.work.ykserver.ykapps.util.RedisUtils;
 import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.ClueVO;
 import com.work.ykserver.ykapps.vo.Result;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +62,60 @@ public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue>
             return ResultUtils.success(CodeEnum.OK);
         }
         return ResultUtils.fail(CodeEnum.FAIL);
+    }
+
+    @Override
+    public Result checkPhone(String phone) {
+        int result = clueMapper.selectCountByPhone(phone);
+        if (result > 0) {
+            return ResultUtils.fail(CodeEnum.FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
+    }
+
+    @Override
+    public Result addClue(ClueQuery clueQuery) {
+        // 解析 token
+        User loginUser = JWTUtils.parseUserFromJWT(clueQuery.getToken());
+        Clue clue = new Clue();
+        BeanUtil.copyProperties(clueQuery, clue);
+        clue.setCreateBy(loginUser.getId());
+        clue.setCreateTime(new Date());
+        int result = clueMapper.saveClue(clue);
+        if (result <= 0) {
+            return ResultUtils.fail(CodeEnum.SAVE_CLUE_FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
+    }
+
+    @Override
+    public Result getClueInfoById(Integer id) {
+        Clue clue = clueMapper.selectById(id);
+        if (ObjectUtil.isEmpty(clue)) {
+            return ResultUtils.fail(CodeEnum.FAIL);
+        }
+        return ResultUtils.success(clue);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Result editClue(ClueQuery clueQuery) {
+        User loginUser = JWTUtils.parseUserFromJWT(clueQuery.getToken());
+        Clue clue = new Clue();
+        BeanUtil.copyProperties(clueQuery, clue);
+        clue.setEditBy(loginUser.getId());
+        clue.setEditTime(new Date());
+        int result = clueMapper.updateClue(clue);
+        if (result != 1) {
+            return ResultUtils.fail(CodeEnum.EDIT_CLUE_FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
+    }
+
+    @Override
+    public Result getClueDetailInfo(Integer id) {
+        ClueVO clueVO = clueMapper.selectClueDetailInfoById(id);
+        return ResultUtils.success(clueVO);
     }
 }
 

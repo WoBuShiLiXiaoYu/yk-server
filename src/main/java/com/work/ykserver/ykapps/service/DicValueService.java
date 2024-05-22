@@ -2,6 +2,7 @@ package com.work.ykserver.ykapps.service;
 
 import com.work.ykserver.ykapps.pojo.DicValue;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.vo.Result;
 
 /**
 * @author 胡国海
@@ -10,4 +11,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface DicValueService extends IService<DicValue> {
 
+    Result getDicValueList(String typeCode);
 }

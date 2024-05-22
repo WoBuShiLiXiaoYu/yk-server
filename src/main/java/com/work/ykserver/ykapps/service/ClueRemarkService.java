@@ -2,6 +2,8 @@ package com.work.ykserver.ykapps.service;
 
 import com.work.ykserver.ykapps.pojo.ClueRemark;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.query.ClueRemarkQuery;
+import com.work.ykserver.ykapps.vo.Result;
 
 /**
 * @author 胡国海
@@ -9,5 +11,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-05-09 21:34:33
 */
 public interface ClueRemarkService extends IService<ClueRemark> {
+
+    Result addClueRemark(ClueRemarkQuery clueRemarkQuery);
+
+    Result getClueRemarkListByPage(Integer clueId, Integer currentPage);
 
 }

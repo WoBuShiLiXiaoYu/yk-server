@@ -2,6 +2,7 @@ package com.work.ykserver.ykapps.service;
 
 import com.work.ykserver.ykapps.pojo.Clue;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.query.ClueQuery;
 import com.work.ykserver.ykapps.vo.Result;
 
 import java.io.InputStream;
@@ -18,4 +19,13 @@ public interface ClueService extends IService<Clue> {
     Result importExcel(InputStream inputStream, String token);
 
 
+    Result checkPhone(String phone);
+
+    Result addClue(ClueQuery clueQuery);
+
+    Result getClueInfoById(Integer id);
+
+    Result editClue(ClueQuery clueQuery);
+
+    Result getClueDetailInfo(Integer id);
 }

@@ -1,7 +1,14 @@
 package com.work.ykserver.ykapps.mapper;
 
+import com.work.ykserver.ykapps.bo.Page;
+import com.work.ykserver.ykapps.common.DataScope;
 import com.work.ykserver.ykapps.pojo.ClueRemark;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.work.ykserver.ykapps.query.ClueRemarkQuery;
+import com.work.ykserver.ykapps.vo.ClueRemarkVO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 胡国海
@@ -11,6 +18,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface ClueRemarkMapper extends BaseMapper<ClueRemark> {
 
+    @DataScope(myTableAlias = "tcr", myTableField = "create_by")
+    List<ClueRemarkVO> selectClueRemarkListByPage(@Param("clueRemarkQuery") ClueRemarkQuery clueRemarkQuery, @Param("page") Page page);
+
+    int selectCountByPage(@Param("clueRemarkQuery") ClueRemarkQuery clueRemarkQuery);
 }
 
 

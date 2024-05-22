@@ -4,12 +4,15 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.work.ykserver.ykapps.bo.Page;
 import com.work.ykserver.ykapps.common.CodeEnum;
+import com.work.ykserver.ykapps.constant.RedisConstants;
+import com.work.ykserver.ykapps.manager.RedisManager;
 import com.work.ykserver.ykapps.pojo.Activity;
 import com.work.ykserver.ykapps.pojo.User;
 import com.work.ykserver.ykapps.query.ActivityQuery;
 import com.work.ykserver.ykapps.query.BaseQuery;
 import com.work.ykserver.ykapps.service.ActivityService;
 import com.work.ykserver.ykapps.mapper.ActivityMapper;
+import com.work.ykserver.ykapps.util.CacheUtils;
 import com.work.ykserver.ykapps.util.JWTUtils;
 import com.work.ykserver.ykapps.util.PageUtils;
 import com.work.ykserver.ykapps.util.ResultUtils;
@@ -35,6 +38,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
     @Resource
     private ActivityMapper activityMapper;
+    @Resource
+    private RedisManager redisManager;
 
     @Override
     public Page getActivityListByPage(Integer currentPage, ActivityQuery query) {
@@ -111,6 +116,25 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         }
         return ResultUtils.success(CodeEnum.OK);
     }
+
+    @Override
+    public Result getActivityName() {
+        List<Activity> activityNameList = CacheUtils.getCacheData(() -> {
+                    // 为缓存生产者提供数据
+                    return redisManager.getValue(RedisConstants.REDIS_CACHE_ACTIVITY_KEY, Activity.class);
+                },
+                () -> {
+                    // 为数据库生产者提供数据
+                    return activityMapper.selectActivityName();
+                },
+                (t) -> {
+                    // 为缓存消费者提供数据
+                    redisManager.setValue(RedisConstants.REDIS_CACHE_ACTIVITY_KEY, t);
+                });
+
+        return ResultUtils.success(activityNameList);
+    }
+
 }
 
 

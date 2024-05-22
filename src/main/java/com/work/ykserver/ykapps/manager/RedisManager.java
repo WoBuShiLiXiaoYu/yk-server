@@ -17,10 +17,10 @@ public class RedisManager {
     private StringRedisTemplate stringRedisTemplate;
 
     // 从 redis 中查询数据
-    public List<User> getValue(String redisKey) {
+    public <T> List<T> getValue(String redisKey, Class<T> t) {
         String resultJson = stringRedisTemplate.opsForValue().get(redisKey);
-        List<User> userList = JSONUtil.toList(resultJson, User.class);
-        return userList;
+        List<T> list = JSONUtil.toList(resultJson, t);
+        return list;
     }
 
     // 向 redis 中存储数据

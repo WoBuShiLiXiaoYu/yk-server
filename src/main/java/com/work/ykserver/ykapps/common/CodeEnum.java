@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 public enum CodeEnum {
     OK(00000, "成功"),
-    FAIL(500000, "失败"),
+    FAIL(50000, "失败"),
     TOKEN_IS_EMPTY(40901, "token 参数为空，请登录！"),
     TOKEN_IS_ERROR(40801, "token 参数有误！"),
     TOKEN_IS_EXPIRED(40701, "token 已过期！"),
@@ -17,9 +17,12 @@ public enum CodeEnum {
     SAVE_USER_FAIL(30002, "新增用户失败！"),
     SAVE_ACTIVITY_FAIL(30102, "录入市场活动失败！"),
     SAVE_ACTIVITY_REMARK_FAIL(30202, "添加市场活动备注失败！"),
+    SAVE_CLUE_FAIL(30502, "录入线索失败！"),
+    SAVE_CLUE_REMARK_FAIL(30602, "添加线索跟踪信息失败！"),
     EDIT_USER_FAIL(30003, "修改用户失败！"),
     EDIT_ACTIVITY_FAIL(30103, "修改市场活动失败！"),
     EDIT_ACTIVITY_REMARK_FAIL(30203, "修改市场活动备注失败！"),
+    EDIT_CLUE_FAIL(30503, "修改线索失败！"),
     DELETE_USER_FAIL(30004, "删除用户失败！"),
     DELETE_ACTIVITY_FAIL(30104, "删除市场活动失败！"),
     DELETE_ACTIVITY_REMARK_FAIL(30204, "删除市场活动备注失败！"),

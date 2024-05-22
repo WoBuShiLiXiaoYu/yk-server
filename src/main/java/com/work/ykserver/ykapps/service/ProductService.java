@@ -2,6 +2,7 @@ package com.work.ykserver.ykapps.service;
 
 import com.work.ykserver.ykapps.pojo.Product;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.vo.Result;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface ProductService extends IService<Product> {
     List<Product> getOnSaleProductList();
 
 
+    Result getOnSaleProductNameList();
 }

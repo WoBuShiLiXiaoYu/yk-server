@@ -82,4 +82,10 @@ public class ActivityController {
         }
         return activityService.batchDeleteActivityByIds(ids);
     }
+
+    @GetMapping("/getActivityName")
+    public Result getActivityName() {
+        return activityService.getActivityName();
+    }
+
 }

@@ -21,4 +21,27 @@
         note_content,create_time,create_by,
         edit_time,edit_by,deleted
     </sql>
+    <select id="selectClueRemarkListByPage" resultType="com.work.ykserver.ykapps.vo.ClueRemarkVO">
+        select tcr.id, tcr.clue_id, tdv.type_value as noteWayValue,
+               tcr.note_content, tcr.create_time, tu1.name as createName,
+               tcr.edit_time, tu2.name as editName, tcr.deleted
+        from t_clue_remark as tcr
+        left outer join t_dic_value as tdv on tcr.note_way = tdv.id
+        left outer join t_user as tu1 on tcr.create_by = tu1.id
+        left outer join t_user as tu2 on tcr.edit_by = tu2.id
+        <where>
+            tcr.clue_id = #{clueRemarkQuery.clueId} and (tcr.deleted = 0 or tcr.deleted is null)
+            ${clueRemarkQuery.filterSQL}
+        </where>
+        order by tcr.create_time desc
+        limit #{page.pageNum}, #{page.pageSize}
+    </select>
+    <select id="selectCountByPage" resultType="java.lang.Integer">
+        select count(*)
+        from t_clue_remark as tcr
+        <where>
+            tcr.clue_id = #{clueRemarkQuery.clueId} and (tcr.deleted = 0 or tcr.deleted is null)
+            ${clueRemarkQuery.filterSQL}
+        </where>
+    </select>
 </mapper>

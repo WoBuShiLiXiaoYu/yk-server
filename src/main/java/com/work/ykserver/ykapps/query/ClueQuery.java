@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -128,29 +129,7 @@ public class ClueQuery extends BaseQuery{
      * 下次联系时间
      */
     @TableField(value = "next_contact_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date nextContactTime;
 
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time")
-    private Date createTime;
-
-    /**
-     * 创建人
-     */
-    @TableField(value = "create_by")
-    private Integer createBy;
-
-    /**
-     * 编辑时间
-     */
-    @TableField(value = "edit_time")
-    private Date editTime;
-
-    /**
-     * 编辑人
-     */
-    @TableField(value = "edit_by")
-    private Integer editBy;
 }

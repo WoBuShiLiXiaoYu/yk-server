@@ -16,4 +16,9 @@
         id,type_code,type_value,
         order,remark
     </sql>
+    <select id="selectDicValueList" resultType="com.work.ykserver.ykapps.pojo.DicValue">
+        select id, type_code, type_value
+        from t_dic_value
+        where type_code = #{typeCode}
+    </select>
 </mapper>

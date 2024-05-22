@@ -25,6 +25,13 @@ public interface ClueMapper extends BaseMapper<Clue> {
 
     int selectCountAll();
 
+    int selectCountByPhone(@Param("phone") String phone);
+
+    int saveClue(@Param("clue") Clue clue);
+
+    int updateClue(@Param("clue") Clue clue);
+
+    ClueVO selectClueDetailInfoById(@Param("id") Integer id);
 }
 
 

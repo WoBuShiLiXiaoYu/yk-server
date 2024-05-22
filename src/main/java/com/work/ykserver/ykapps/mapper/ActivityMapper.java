@@ -31,6 +31,9 @@ public interface ActivityMapper extends BaseMapper<Activity> {
 
     int batchDeleteByIds(@Param("activityIds") List<Integer> activityIds);
 
+    List<Activity> selectActivityName();
+
+
 }
 
 

@@ -2,6 +2,9 @@ package com.work.ykserver.ykapps.mapper;
 
 import com.work.ykserver.ykapps.pojo.DicValue;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 胡国海
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface DicValueMapper extends BaseMapper<DicValue> {
 
+    List<DicValue> selectDicValueList(@Param("typeCode") String typeCode);
 }
 
 

@@ -195,7 +195,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 设置有效期缓存进 redis
         List<User> list = CacheUtils.getCacheData(() -> {
                     // 为缓存生产者提供数据
-                    return redisManager.getValue(RedisConstants.REDIS_CACHE_KEY);
+                    return redisManager.getValue(RedisConstants.REDIS_CACHE_OWNER_KEY, User.class);
                 },
                 () -> {
                     // 为数据库生产者提供数据
@@ -203,7 +203,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 },
                 (t) -> {
                     // 为缓存消费者提供数据
-                    redisManager.setValue(RedisConstants.REDIS_CACHE_KEY, t);
+                    redisManager.setValue(RedisConstants.REDIS_CACHE_OWNER_KEY, t);
                 });
         return ResultUtils.success(list);
     }

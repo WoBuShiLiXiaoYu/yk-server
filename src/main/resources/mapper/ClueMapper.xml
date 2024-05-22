@@ -58,6 +58,30 @@
                     </foreach>
     </insert>
 
+    <insert id="saveClue">
+        insert into t_clue (owner_id, activity_id, full_name, appellation, phone,
+                            weixin, qq, email, age, job, year_income,
+                            address, need_loan, intention_state,
+                            intention_product, state, source,
+                            description, next_contact_time, create_time, create_by)
+                    values (#{clue.ownerId}, #{clue.activityId}, #{clue.fullName}, #{clue.appellation}, #{clue.phone},
+                            #{clue.weixin}, #{clue.qq}, #{clue.email}, #{clue.age}, #{clue.job}, #{clue.yearIncome},
+                            #{clue.address}, #{clue.needLoan}, #{clue.intentionState},
+                            #{clue.intentionProduct}, #{clue.state}, #{clue.source},
+                            #{clue.description}, #{clue.nextContactTime}, #{clue.createTime}, #{clue.createBy})
+    </insert>
+
+    <update id="updateClue">
+        update t_clue set activity_id = #{clue.activityId}, full_name = #{clue.fullName}, appellation = #{clue.appellation},
+                          weixin = #{clue.weixin}, qq = #{clue.qq}, email = #{clue.email}, age = #{clue.age},
+                          job = #{clue.job}, year_income = #{clue.yearIncome}, address = #{clue.address},
+                          need_loan = #{clue.needLoan}, intention_state = #{clue.intentionState},
+                          intention_product = #{clue.intentionProduct}, state = #{clue.state}, source = #{clue.source},
+                          description = #{clue.description}, next_contact_time = #{clue.nextContactTime},
+                          edit_time = #{clue.editTime}, edit_by = #{clue.editBy}
+        where id = #{clue.id}
+    </update>
+
     <select id="selectClueListByPage" resultType="com.work.ykserver.ykapps.vo.ClueVO">
         select tc.id, tu.name as ownerName, ta.name as activityName,
                tc.full_name, tdv1.type_value as appellationName, tc.phone,
@@ -88,6 +112,32 @@
     <select id="selectCountAll" resultType="java.lang.Integer">
         select count(*)
         from t_clue
+    </select>
+
+    <select id="selectCountByPhone" resultType="java.lang.Integer">
+        select count(phone)
+        from t_clue
+        where phone = #{phone}
+    </select>
+    <select id="selectClueDetailInfoById" resultType="com.work.ykserver.ykapps.vo.ClueVO">
+        select tc.id, tu.name as ownerName, ta.name as activityName,
+            tc.full_name, tdv1.type_value as appellationName, tc.phone,
+            tc.weixin, tc.qq, tc.email,
+            tc.age, tc.job, tc.year_income,
+            tc.address, tdv2.type_value as isNeedLoan, tdv3.type_value as intentionStateType,
+            tp.name as intentionProductName, tdv4.type_value as clueState, tdv5.type_value as clueSource,
+            tc.description, tc.next_contact_time, tc.create_time,
+            tc.create_by, tc.edit_time, tc.edit_by
+        from t_clue as tc
+            left outer join t_user as tu on tc.owner_id = tu.id
+            left outer join t_activity as ta on tc.activity_id = ta.id
+            left outer join t_dic_value as tdv1 on tc.appellation = tdv1.id
+            left outer join t_dic_value as tdv2 on tc.need_loan = tdv2.id
+            left outer join t_dic_value as tdv3 on tc.intention_state = tdv3.id
+            left outer join t_dic_value as tdv4 on tc.state = tdv4.id
+            left outer join t_dic_value as tdv5 on tc.source = tdv5.id
+            left outer join t_product as tp on tc.intention_product = tp.id
+        where tc.id = #{id}
     </select>
 
 </mapper>

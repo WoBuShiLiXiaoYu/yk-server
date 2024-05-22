@@ -27,4 +27,8 @@ public interface ActivityService extends IService<Activity> {
     Result deleteActivityById(Integer id);
 
     Result batchDeleteActivityByIds(String[] ids);
+
+    Result getActivityName();
+
+
 }

@@ -15,6 +15,7 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     List<Product> selectOnSalProductList();
 
+    List<Product> selectOnSalProductNameList();
 }
 
 

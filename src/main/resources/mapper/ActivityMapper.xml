@@ -114,5 +114,11 @@
         on ta.edit_by = tu3.id
         where ta.id = #{id}
     </select>
+    <select id="selectActivityName" resultType="com.work.ykserver.ykapps.pojo.Activity">
+        select id, name
+        from t_activity
+        where now() >= start_time and end_time >= now()
+    </select>
+
 
 </mapper>
