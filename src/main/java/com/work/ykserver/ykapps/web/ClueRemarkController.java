@@ -30,4 +30,20 @@ public class ClueRemarkController {
         }
         return clueRemarkService.getClueRemarkListByPage(clueId, currentPage);
     }
+
+    @GetMapping("/getNoteContent/{id}")
+    public Result getNoteContent(@PathVariable(value = "id") Integer id) {
+        return clueRemarkService.getNoteContentById(id);
+    }
+
+    @PutMapping("/editClueRemark")
+    public Result editClueRemark(@RequestBody ClueRemarkQuery clueRemarkQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) throws Exception {
+        clueRemarkQuery.setToken(token);
+        return clueRemarkService.editClueRemark(clueRemarkQuery);
+    }
+
+    @DeleteMapping("/deleteClueRemark/{id}")
+    public Result deleteClueRemark(@PathVariable(value = "id") Integer id) {
+        return clueRemarkService.deleteClueRemarkById(id);
+    }
 }

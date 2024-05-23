@@ -65,4 +65,14 @@ public class ClueController {
         return clueService.getClueDetailInfo(id);
     }
 
+    @DeleteMapping("/deleteClue/{id}")
+    public Result deleteClue(@PathVariable(value = "id") Integer id) {
+        return clueService.deleteClueById(id);
+    }
+
+    @DeleteMapping("/batchDeleteClue")
+    public Result batchDeleteClue(@RequestParam(value = "ids") String[] ids) {
+        return clueService.batchDeleteClue(ids);
+    }
+
 }

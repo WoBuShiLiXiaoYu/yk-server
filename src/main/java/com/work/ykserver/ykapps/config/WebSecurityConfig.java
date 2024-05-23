@@ -57,6 +57,9 @@ public class WebSecurityConfig {
                 .csrf(csrf -> {
                     csrf.disable();
                 })
+                /*.headers(header -> {
+                    header.frameOptions().disable();
+                })*/
                 // 支持跨域
                 .cors(cors -> {
                     cors.configurationSource(corsConfigurationSource);

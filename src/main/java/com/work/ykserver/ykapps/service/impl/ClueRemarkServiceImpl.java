@@ -15,6 +15,8 @@ import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.ClueRemarkVO;
 import com.work.ykserver.ykapps.vo.Result;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -33,6 +35,7 @@ public class ClueRemarkServiceImpl extends ServiceImpl<ClueRemarkMapper, ClueRem
     private ClueRemarkMapper clueRemarkMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result addClueRemark(ClueRemarkQuery clueRemarkQuery) {
         // 解析
         User loginUser = JWTUtils.parseUserFromJWT(clueRemarkQuery.getToken());
@@ -59,6 +62,39 @@ public class ClueRemarkServiceImpl extends ServiceImpl<ClueRemarkMapper, ClueRem
         int total = clueRemarkMapper.selectCountByPage(clueRemarkQuery);
         page = PageUtils.pageSetting(page, clueRemarkVOList, total);
         return ResultUtils.success(page);
+    }
+
+    @Override
+    public Result getNoteContentById(Integer id) {
+        ClueRemarkVO clueRemarkVO = clueRemarkMapper.selectNoteContentById(id);
+        return ResultUtils.success(clueRemarkVO);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Result editClueRemark(ClueRemarkQuery clueRemarkQuery) throws Exception {
+        // 解析
+        User loginUser = JWTUtils.parseUserFromJWT(clueRemarkQuery.getToken());
+        ClueRemark clueRemark = new ClueRemark();
+        BeanUtil.copyProperties(clueRemarkQuery, clueRemark);
+        clueRemark.setEditBy(loginUser.getId());
+        clueRemark.setEditTime(new Date());
+        int result = clueRemarkMapper.updateClueRemark(clueRemark);
+        if ((result) != 1) {
+            //return ResultUtils.fail(CodeEnum.EDIT_CLUE_REMARK_FAIL);
+            throw new Exception(CodeEnum.EDIT_CLUE_REMARK_FAIL.getMsg());
+        }
+        return ResultUtils.success(CodeEnum.OK);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result deleteClueRemarkById(Integer id) {
+        int result = clueRemarkMapper.deleteById(id);
+        if (result != 1) {
+            return ResultUtils.fail(CodeEnum.DELETE_CLUE_REMARK_FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
     }
 }
 

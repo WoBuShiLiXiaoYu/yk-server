@@ -34,6 +34,7 @@ public class ActivityRemarkServiceImpl extends ServiceImpl<ActivityRemarkMapper,
     private ActivityRemarkMapper activityRemarkMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result saveActivityRemark(ActivityRemarkQuery activityRemarkQuery) {
         User loginUser = JWTUtils.parseUserFromJWT(activityRemarkQuery.getToken());
         ActivityRemark activityRemark = new ActivityRemark();
@@ -85,6 +86,7 @@ public class ActivityRemarkServiceImpl extends ServiceImpl<ActivityRemarkMapper,
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result deleteActivityRemark(Integer id) {
         int result = activityRemarkMapper.deleteById(id);
         if (result != 1) {

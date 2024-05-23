@@ -16,4 +16,9 @@ public interface ClueRemarkService extends IService<ClueRemark> {
 
     Result getClueRemarkListByPage(Integer clueId, Integer currentPage);
 
+    Result getNoteContentById(Integer id);
+
+    Result editClueRemark(ClueRemarkQuery clueRemarkQuery) throws Exception;
+
+    Result deleteClueRemarkById(Integer id);
 }

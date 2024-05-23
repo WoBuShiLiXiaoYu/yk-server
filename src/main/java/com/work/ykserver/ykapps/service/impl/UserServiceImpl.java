@@ -130,6 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result userSave(UserQuery userQuery) {
         // 从 token 中解析登录用户
         User loginUser = JWTUtils.parseUserFromJWT(userQuery.getToken());
@@ -170,6 +171,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result deleteUserById(Integer id) {
         int result = userMapper.deleteById(id);
         if (!(result >= 1)) {
@@ -179,6 +181,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result deleteUserByIds(String[] ids) {
         List<Integer> userIds = Arrays.stream(ids).map(Integer::parseInt).collect(Collectors.toList());
         int result = userMapper.batchDeleteByIds(userIds);

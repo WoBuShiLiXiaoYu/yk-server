@@ -56,6 +56,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result saveActivity(ActivityQuery activityQuery) {
         // 解析 token，获取创建人 id
         User loginUser = JWTUtils.parseUserFromJWT(activityQuery.getToken());
@@ -99,6 +100,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result deleteActivityById(Integer id) {
         int result = activityMapper.deleteById(id);
         if (result != 1) {
@@ -108,6 +110,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result batchDeleteActivityByIds(String[] ids) {
         List<Integer> activityIds = Arrays.stream(ids).map(Integer::parseInt).collect(Collectors.toList());
         int result = activityMapper.batchDeleteByIds(activityIds);

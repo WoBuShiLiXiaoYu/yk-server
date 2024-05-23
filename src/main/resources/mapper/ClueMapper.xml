@@ -81,6 +81,17 @@
                           edit_time = #{clue.editTime}, edit_by = #{clue.editBy}
         where id = #{clue.id}
     </update>
+    <update id="updateStateById">
+        update t_clue set state = -1
+        where id = #{clueId}
+    </update>
+    <delete id="deleteByIds">
+        delete from t_clue
+        where id in
+        <foreach collection="idList" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 
     <select id="selectClueListByPage" resultType="com.work.ykserver.ykapps.vo.ClueVO">
         select tc.id, tu.name as ownerName, ta.name as activityName,

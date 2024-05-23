@@ -22,6 +22,10 @@ public interface ClueRemarkMapper extends BaseMapper<ClueRemark> {
     List<ClueRemarkVO> selectClueRemarkListByPage(@Param("clueRemarkQuery") ClueRemarkQuery clueRemarkQuery, @Param("page") Page page);
 
     int selectCountByPage(@Param("clueRemarkQuery") ClueRemarkQuery clueRemarkQuery);
+
+    ClueRemarkVO selectNoteContentById(@Param("id") Integer id);
+
+    int updateClueRemark(@Param("clueRemark") ClueRemark clueRemark);
 }
 
 

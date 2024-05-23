@@ -24,8 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * @author 胡国海
@@ -54,6 +56,7 @@ public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result importExcel(InputStream fileInputStream, String token) {
         int before = clueMapper.selectCountAll();
         EasyExcel.read(fileInputStream, Clue.class, new UploadDataListener(clueMapper, token)).sheet().doRead();
@@ -74,6 +77,7 @@ public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result addClue(ClueQuery clueQuery) {
         // 解析 token
         User loginUser = JWTUtils.parseUserFromJWT(clueQuery.getToken());
@@ -116,6 +120,27 @@ public class ClueServiceImpl extends ServiceImpl<ClueMapper, Clue>
     public Result getClueDetailInfo(Integer id) {
         ClueVO clueVO = clueMapper.selectClueDetailInfoById(id);
         return ResultUtils.success(clueVO);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result deleteClueById(Integer id) {
+        int result = clueMapper.deleteById(id);
+        if (result != 1) {
+            return ResultUtils.fail(CodeEnum.DELETE_CLUE_FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result batchDeleteClue(String[] ids) {
+        List<Integer> idList = Arrays.stream(ids).map(Integer::parseInt).collect(Collectors.toList());
+        int result = clueMapper.deleteByIds(idList);
+        if (result != idList.size()) {
+            return ResultUtils.success(CodeEnum.DELETE_CLUE_FAIL);
+        }
+        return ResultUtils.success(CodeEnum.OK);
     }
 }
 

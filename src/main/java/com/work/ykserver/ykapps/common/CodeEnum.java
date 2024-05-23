@@ -22,10 +22,14 @@ public enum CodeEnum {
     EDIT_USER_FAIL(30003, "修改用户失败！"),
     EDIT_ACTIVITY_FAIL(30103, "修改市场活动失败！"),
     EDIT_ACTIVITY_REMARK_FAIL(30203, "修改市场活动备注失败！"),
+    EDIT_CLUE_REMARK_FAIL(30603, "修改线索跟踪信息失败！"),
     EDIT_CLUE_FAIL(30503, "修改线索失败！"),
     DELETE_USER_FAIL(30004, "删除用户失败！"),
     DELETE_ACTIVITY_FAIL(30104, "删除市场活动失败！"),
     DELETE_ACTIVITY_REMARK_FAIL(30204, "删除市场活动备注失败！"),
+    DELETE_CLUE_FAIL(30504, "删除线索失败！"),
+    DELETE_CLUE_REMARK_FAIL(30604, "删除线索跟踪信息失败！"),
+    CLUE_TO_CUSTOMER_FAIL(30801, "线索转换客户失败！"),
     PARAMETERS_IS_NULL(30100, "请求参数为空！"),
     DATA_ACCESS_EXCEPTION(10001, "数据库操作失败！")
     ;

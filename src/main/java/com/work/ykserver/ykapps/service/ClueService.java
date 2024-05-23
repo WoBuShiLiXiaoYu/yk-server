@@ -28,4 +28,8 @@ public interface ClueService extends IService<Clue> {
     Result editClue(ClueQuery clueQuery);
 
     Result getClueDetailInfo(Integer id);
+
+    Result deleteClueById(Integer id);
+
+    Result batchDeleteClue(String[] ids);
 }

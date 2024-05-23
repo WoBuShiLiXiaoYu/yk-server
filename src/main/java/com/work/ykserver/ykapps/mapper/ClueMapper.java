@@ -32,6 +32,10 @@ public interface ClueMapper extends BaseMapper<Clue> {
     int updateClue(@Param("clue") Clue clue);
 
     ClueVO selectClueDetailInfoById(@Param("id") Integer id);
+
+    int deleteByIds(@Param("idList") List<Integer> idList);
+
+    int updateStateById(@Param("clueId") Integer clueId);
 }
 
 

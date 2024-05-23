@@ -2,6 +2,11 @@ package com.work.ykserver.ykapps.service;
 
 import com.work.ykserver.ykapps.pojo.Customer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.work.ykserver.ykapps.query.CustomerQuery;
+import com.work.ykserver.ykapps.vo.CustomerExcel;
+import com.work.ykserver.ykapps.vo.Result;
+
+import java.util.List;
 
 /**
 * @author 胡国海
@@ -10,4 +15,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CustomerService extends IService<Customer> {
 
+    Result conversionCustomer(CustomerQuery customerQuery);
+
+    Result getCustomerListByPage(Integer currentPage);
+
+    List<CustomerExcel> getCustomerListByExcel();
+
+    List<CustomerExcel> getCustomerListByIds(String[] ids);
 }

@@ -45,8 +45,18 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
         if (RequestConstants.LOGIN_URI.equals(request.getRequestURI())) {
          filterChain.doFilter(request, response);
         }
-        // 获取 token
-        String token = request.getHeader(RequestConstants.HEADER_TOKEN_NAME);
+        String token = null;
+        if (RequestConstants.BATCH_EXPORT_EXCEL_URI.equals(request.getRequestURI())) {
+            // 批量导出 Excel 请求，从请求路径中获取 token
+            token = request.getParameter(RequestConstants.HEADER_TOKEN_NAME);
+        } else if (RequestConstants.CHOOSE_EXPORT_EXCEL_URI.equals(request.getRequestURI())){
+            // 选择导出
+            token = request.getParameter(RequestConstants.HEADER_TOKEN_NAME);
+        } else {
+            // 一般请求从请求头获取 token
+            token = request.getHeader(RequestConstants.HEADER_TOKEN_NAME);
+        }
+
         // 验证 token 是否为空
         if (StrUtil.isEmpty(token)) {
             Result result = ResultUtils.fail(CodeEnum.TOKEN_IS_EMPTY);
