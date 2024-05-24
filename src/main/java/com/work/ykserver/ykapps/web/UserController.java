@@ -12,6 +12,7 @@ import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.Result;
 import com.work.ykserver.ykapps.vo.SecurityUser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,7 @@ public class UserController {
         return ResultUtils.success(CodeEnum.OK.getCode(), "登录成功！");
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('user:list')")
     @GetMapping("/userList")
     public Result getUserList(@RequestParam(value = "currentPage", required = false)
                                           Integer currentPage) {
@@ -54,6 +56,8 @@ public class UserController {
         return ResultUtils.success(CodeEnum.OK.getCode(), "", page);
     }
 
+
+    @PreAuthorize(value = "hasAnyAuthority('user:view')")
     @GetMapping("/userDetailInfo")
     public Result getUserDetailInfo(@RequestParam(value = "id") Integer id) {
         if (id == null) {
@@ -63,6 +67,7 @@ public class UserController {
         return ResultUtils.success(user);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('user:add')")
     @PostMapping("/userSave")
     public Result userSave(UserQuery userQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
         if (ObjectUtil.isEmpty(userQuery)) {
@@ -72,6 +77,7 @@ public class UserController {
         return userService.userSave(userQuery);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('user:edit')")
     @PutMapping("/editUserInfo")
     public Result editUser(UserQuery userQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) throws Exception {
         if (ObjectUtil.isEmpty(userQuery)) {
@@ -81,6 +87,7 @@ public class UserController {
         return userService.userEdit(userQuery);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('user:delete')")
     @DeleteMapping("/deleteUser")
     public Result deleteUser(@RequestParam(value = "id") Integer id) {
         if (ObjectUtil.isEmpty(id)) {
@@ -89,6 +96,7 @@ public class UserController {
         return userService.deleteUserById(id);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('user:delete')")
     @DeleteMapping("/batchDeleteUser")
     public Result batchDeleteUser(@RequestParam(value = "ids") String[] ids) {
         if (ObjectUtil.isEmpty(ids)) {

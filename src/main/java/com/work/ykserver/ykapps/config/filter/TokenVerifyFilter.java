@@ -74,13 +74,13 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
         // 解析 token
         //SecurityUser securityUser = JWTUtils.parseUserFromJWT(token);
         String userInfoFromJWT = JWTUtils.getUserInfoFromJWT(token);
-        log.info("userInfoFromJWT：" + userInfoFromJWT);
+        //log.info("userInfoFromJWT：" + userInfoFromJWT);
         List<String> authorListFromJWT = JWTUtils.getAuthorListFromJWT(token);
         //SecurityUser securityUser = JSONUtils.toBean(userInfoFromJWT, SecurityUser.class);
         //User user = objectMapper.readValue(userInfoFromJWT, User.class);
         User user = JSONUtils.toBean(userInfoFromJWT, User.class);
         SecurityUser securityUser = new SecurityUser(user);
-        log.info("securityUserJWT：" + securityUser);
+        //log.info("securityUserJWT：" + securityUser);
         //List<SimpleGrantedAuthority> authorityList = authorListFromJWT.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         for (String authority : authorListFromJWT) {
@@ -103,7 +103,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
             return;
         }
         // 验证通过
-        log.info("验证jwt_user：" + securityUser);
+        //log.info("验证jwt_user：" + securityUser);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(securityUser, securityUser.getUser().getLoginPwd(), authorityList);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

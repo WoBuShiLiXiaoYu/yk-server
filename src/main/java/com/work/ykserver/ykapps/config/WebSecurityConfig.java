@@ -1,5 +1,6 @@
 package com.work.ykserver.ykapps.config;
 
+import com.work.ykserver.ykapps.config.handler.MyAccessDeniedHandler;
 import com.work.ykserver.ykapps.constant.RequestConstants;
 import com.work.ykserver.ykapps.config.filter.TokenVerifyFilter;
 import com.work.ykserver.ykapps.config.handler.MyAuthenticationFailureHandler;
@@ -7,6 +8,8 @@ import com.work.ykserver.ykapps.config.handler.MyAuthenticationSuccessHandler;
 import com.work.ykserver.ykapps.config.handler.MyLogoutSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.annotation.Resource;
 import java.util.Arrays;
 
+@EnableMethodSecurity
 @Configuration
 public class WebSecurityConfig {
 
@@ -29,6 +33,8 @@ public class WebSecurityConfig {
     private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
     @Resource
     private MyLogoutSuccessHandler myLogoutSuccessHandler;
+    @Resource
+    private MyAccessDeniedHandler accessDeniedHandler;
     @Resource
     private TokenVerifyFilter tokenVerifyFilter;
 
@@ -71,6 +77,10 @@ public class WebSecurityConfig {
                 })
                 // 添加自定义过滤器
                 .addFilterBefore(tokenVerifyFilter, LogoutFilter.class)
+                // 无权限
+                .exceptionHandling(exceptionHandling -> {
+                    exceptionHandling.accessDeniedHandler(accessDeniedHandler);
+                })
                 .build();
     }
 

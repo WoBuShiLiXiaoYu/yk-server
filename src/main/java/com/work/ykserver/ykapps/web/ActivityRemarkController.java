@@ -8,6 +8,7 @@ import com.work.ykserver.ykapps.service.ActivityRemarkService;
 import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.Result;
 import lombok.experimental.PackagePrivate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ public class ActivityRemarkController {
     @Resource
     private ActivityRemarkService activityRemarkService;
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:add')")
     @PostMapping("/addActivityRemark")
     public Result addActivityRemark(@RequestBody ActivityRemarkQuery activityRemarkQuery,
                                     @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
@@ -26,6 +28,7 @@ public class ActivityRemarkController {
         return activityRemarkService.saveActivityRemark(activityRemarkQuery);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:list')")
     @GetMapping("/getActivityRemarkList/{activityId}")
     public Result getActivityRemarkList(@PathVariable(value = "activityId") Integer id, @RequestParam(value = "currentPage") Integer currentPage) {
         if (ObjectUtil.isEmpty(id)) {
@@ -45,6 +48,7 @@ public class ActivityRemarkController {
         return activityRemarkService.getNoteContentById(id);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:edit')")
     @PutMapping("/editActivityRemark")
     public Result editActivityRemark(@RequestBody ActivityRemarkQuery activityRemarkQuery,
                                      @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) throws Exception {
@@ -53,6 +57,7 @@ public class ActivityRemarkController {
         return activityRemarkService.editActivityRemarkById(activityRemarkQuery);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:delete')")
     @DeleteMapping("deleteActivityRemark")
     public Result deleteActivityRemark(@RequestParam(value = "id") Integer id) {
         return activityRemarkService.deleteActivityRemark(id);

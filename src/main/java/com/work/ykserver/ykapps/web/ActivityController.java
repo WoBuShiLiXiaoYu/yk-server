@@ -8,6 +8,7 @@ import com.work.ykserver.ykapps.query.ActivityQuery;
 import com.work.ykserver.ykapps.service.ActivityService;
 import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.Result;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ public class ActivityController {
     @Resource
     private ActivityService activityService;
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:list')")
     @GetMapping("/activityList")
     public Result getActivityList(@RequestParam(value = "currentPage", required = false)
                                   Integer currentPage, ActivityQuery activityQuery) {
@@ -33,6 +35,7 @@ public class ActivityController {
         return ResultUtils.success(CodeEnum.OK.getCode(), "", page);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:add')")
     @PostMapping("/addActivity")
     public Result addActivity(ActivityQuery activityQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) {
         if (ObjectUtil.isEmpty(activityQuery)) {
@@ -50,6 +53,7 @@ public class ActivityController {
         return activityService.getActivityById(id);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:edit')")
     @PutMapping("/editActivity")
     public Result editActivity(ActivityQuery activityQuery, @RequestHeader(value = RequestConstants.HEADER_TOKEN_NAME) String token) throws Exception {
         if (ObjectUtil.isEmpty(activityQuery)) {
@@ -59,6 +63,7 @@ public class ActivityController {
         return activityService.editActivity(activityQuery);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:view')")
     @GetMapping("/activityDetailInfo/{id}")
     public Result getActivityDetailInfo(@PathVariable(value = "id") Integer id) {
         if (ObjectUtil.isEmpty(id)) {
@@ -67,6 +72,7 @@ public class ActivityController {
         return activityService.getActivityDetailInfoById(id);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:delete')")
     @DeleteMapping("/deleteActivity")
     public Result deleteActivity(@RequestParam(value = "id") Integer id) {
         if (ObjectUtil.isEmpty(id)) {
@@ -75,6 +81,7 @@ public class ActivityController {
         return activityService.deleteActivityById(id);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('activity:delete')")
     @DeleteMapping("/batchDeleteActivity")
     public Result batchDeleteActivity(@RequestParam(value = "ids") String[] ids) {
         if (ObjectUtil.isEmpty(ids)) {

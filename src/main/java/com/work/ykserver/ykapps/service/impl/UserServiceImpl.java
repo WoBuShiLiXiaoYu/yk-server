@@ -18,6 +18,7 @@ import com.work.ykserver.ykapps.util.CacheUtils;
 import com.work.ykserver.ykapps.util.JWTUtils;
 import com.work.ykserver.ykapps.util.PageUtils;
 import com.work.ykserver.ykapps.util.ResultUtils;
+import com.work.ykserver.ykapps.vo.PermissionVO;
 import com.work.ykserver.ykapps.vo.Result;
 import com.work.ykserver.ykapps.vo.SecurityUser;
 import lombok.extern.slf4j.Slf4j;
@@ -73,14 +74,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new UsernameNotFoundException("用户账号为空！");
         }
 
-        // 查找用户角色、权限
+        // 查找用户角色、权限标识
         List<String> roles = roleMapper.getRoleByUserId(user.getId());
-        List<String> permissions = permissionMapper.getPermissionByUserId(user.getId().toString());
-        user.setRoleList(roles);
-        user.setPermissionList(permissions);
+        List<String> permissionList = permissionMapper.getPermissionByUserId(user.getId());
 
-        log.info("roles: " + roles);
-        log.info("permissions: " + permissions);
+        List<PermissionVO> permissionVOS = permissionMapper.getMenuPermissionByUserId(user.getId());
+        user.setRoleList(roles);
+        user.setMenuPermissionList(permissionVOS);
+        user.setPermissionList(permissionList);
+
+        /*log.info("roles: " + roles);
+        log.info("permissionsVO: " + permissions);*/
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         // 设置角色
@@ -92,9 +96,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             }
         }
-        // 设置权限
-        if (!ObjectUtils.isEmpty(permissions)) {
-            for (String permission : permissions) {
+        // 设置权限标识
+        if (!ObjectUtils.isEmpty(permissionList)) {
+            for (String permission : permissionList) {
                 // 不为空的值添加
                 if (!ObjectUtils.isEmpty(permission)) {
                     authorities.add(new SimpleGrantedAuthority(permission));
@@ -102,11 +106,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             }
         }
 
-        log.info("user:" + user);
-        log.info("authorities:" + authorities);
+        /*log.info("user:" + user);
+        log.info("authorities:" + authorities);*/
         SecurityUser securityUser = new SecurityUser(user);
         securityUser.setAuthorityList(authorities);
-        log.info("securityUser:" + securityUser);
+        /*log.info("securityUser:" + securityUser);*/
         return securityUser;
     }
 

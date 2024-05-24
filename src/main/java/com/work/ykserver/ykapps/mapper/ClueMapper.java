@@ -5,6 +5,7 @@ import com.work.ykserver.ykapps.pojo.Clue;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.work.ykserver.ykapps.query.ClueQuery;
 import com.work.ykserver.ykapps.vo.ClueVO;
+import com.work.ykserver.ykapps.vo.NameAndValueVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -36,6 +37,11 @@ public interface ClueMapper extends BaseMapper<Clue> {
     int deleteByIds(@Param("idList") List<Integer> idList);
 
     int updateStateById(@Param("clueId") Integer clueId);
+
+    Integer selectTotalClueCount();
+
+    List<NameAndValueVO> selectClueBySource();
+
 }
 
 

@@ -34,6 +34,9 @@ public interface ActivityMapper extends BaseMapper<Activity> {
     List<Activity> selectActivityName();
 
 
+    Integer selectEffectiveActivityCount();
+
+    Integer selectTotalActivityCount();
 }
 
 

@@ -25,4 +25,21 @@
         description,next_contact_time,create_time,
         create_by,edit_time,edit_by
     </sql>
+    <select id="selectSuccessTranAmount" resultType="java.math.BigDecimal">
+        select sum(money)
+        from t_tran
+        where stage = 42
+    </select>
+    <select id="selectTotalTranAmount" resultType="java.math.BigDecimal">
+        select sum(money)
+        from t_tran
+    </select>
+    <select id="selectTotalTranCount" resultType="java.lang.Integer">
+        select count(0)
+        from (select distinct customer_id from t_tran) t
+    </select>
+    <select id="selectSuccessTranCount" resultType="java.lang.Integer">
+        select count(0)
+        from (select distinct customer_id from t_tran where stage = 42) t
+    </select>
 </mapper>

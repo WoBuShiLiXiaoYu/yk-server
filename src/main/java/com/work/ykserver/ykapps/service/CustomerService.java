@@ -22,4 +22,7 @@ public interface CustomerService extends IService<Customer> {
     List<CustomerExcel> getCustomerListByExcel();
 
     List<CustomerExcel> getCustomerListByIds(String[] ids);
+
+    Result getCustomerDetailById(Integer id);
+
 }

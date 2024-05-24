@@ -3,8 +3,13 @@ package com.work.ykserver.ykapps.vo;
 import com.work.ykserver.ykapps.pojo.Customer;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 @Data
 public class CustomerVO extends Customer {
+
+    private Integer clueId;
 
     /**
      * 负责人
@@ -42,5 +47,15 @@ public class CustomerVO extends Customer {
     private String phone;
     private String weixin;
     private String fullName;
+    private String qq;
+    private String email;
+    private Integer age;
+    private String job;
+    private BigDecimal yearIncome;
+    private String address;
+    private String description;
+    private Date nextContactTime;
+    private String createName;
+    private String editName;
 
 }

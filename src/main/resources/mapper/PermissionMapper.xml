@@ -15,18 +15,62 @@
             <result property="icon" column="icon" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap id="PermissionResultMap" type="com.work.ykserver.ykapps.vo.PermissionVO">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="orderNo" column="order_no" jdbcType="INTEGER"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <collection property="childList" ofType="com.work.ykserver.ykapps.pojo.Permission">
+            <id property="id" column="childId"></id>
+            <result property="name" column="childName"></result>
+            <result property="code" column="childCode"></result>
+            <result property="url" column="childUrl"></result>
+            <result property="type" column="childType"></result>
+            <result property="parentId" column="childPId"></result>
+            <result property="orderNo" column="childOrderNo"></result>
+            <result property="icon" column="childIcon"></result>
+        </collection>
+    </resultMap>
+
     <sql id="Base_Column_List">
         id,name,code,
         url,type,parent_id,
         order_no,icon
     </sql>
+    <select id="getMenuPermissionByUserId" resultMap="PermissionResultMap">
+        select
+            tp.*,
+            child.id as childId,
+            child.`name` as childName,
+            child.CODE as childCode,
+            child.type as childType,
+            child.url as childUrl,
+            child.parent_id childPId,
+            child.order_no as childOrderNo,
+            child.icon as childIcon
+        from
+            t_permission as tp
+                INNER JOIN t_permission as child on tp.id = child.parent_id
+                LEFT OUTER JOIN t_role_permission as trp on tp.id = trp.permission_id
+                LEFT JOIN t_role as tr on trp.role_id = tr.id
+                LEFT JOIN t_user_role as tur on tr.id = tur.role_id
+                LEFT JOIN t_user as tu on tur.user_id = tu.id
+        where
+            tu.id = #{userId}
+          and tp.type = 'menu'
+          and child.type = 'menu'
+    </select>
     <select id="getPermissionByUserId" resultType="java.lang.String">
-        select distinct tp.code
+        select distinct tp.code,
+                        tp.id,
+                        tp.name
         from t_user_role as tur
-        inner join t_role_permission as trp
-        on tur.role_id = trp.role_id
-        inner join t_permission as tp
-        on tp.id = trp.permission_id
-        where tur.user_id = #{userId}
+                 LEFT JOIN t_role_permission as trp on tur.role_id = trp.role_id
+                 LEFT JOIN t_permission as tp on tp.id = trp.permission_id
+        where tur.user_id = #{id} and tp.type = 'button'
     </select>
 </mapper>

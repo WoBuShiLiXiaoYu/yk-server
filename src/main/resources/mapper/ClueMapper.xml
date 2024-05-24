@@ -150,5 +150,16 @@
             left outer join t_product as tp on tc.intention_product = tp.id
         where tc.id = #{id}
     </select>
+    <select id="selectTotalClueCount" resultType="java.lang.Integer">
+        select count(0)
+        from t_clue
+    </select>
+    <select id="selectClueBySource" resultType="com.work.ykserver.ykapps.vo.NameAndValueVO">
+        select count(tc.id) as value, tdv.type_value as name
+        from t_clue as tc
+        left outer join t_dic_value as tdv on tc.source = tdv.id
+        where tdv.type_value is not null
+        group by tc.source
+    </select>
 
 </mapper>

@@ -31,7 +31,8 @@ public enum CodeEnum {
     DELETE_CLUE_REMARK_FAIL(30604, "删除线索跟踪信息失败！"),
     CLUE_TO_CUSTOMER_FAIL(30801, "线索转换客户失败！"),
     PARAMETERS_IS_NULL(30100, "请求参数为空！"),
-    DATA_ACCESS_EXCEPTION(10001, "数据库操作失败！")
+    DATA_ACCESS_EXCEPTION(10001, "数据库操作失败！"),
+    ACCESS_DENIED(500, "权限不足！");
     ;
 
     private final int code;

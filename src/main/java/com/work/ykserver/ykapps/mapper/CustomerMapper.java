@@ -19,15 +19,19 @@ import java.util.List;
 */
 public interface CustomerMapper extends BaseMapper<Customer> {
 
-    @DataScope(myTableAlias = "tct", myTableField = "create_id")
+    @DataScope(myTableAlias = "tct", myTableField = "create_by")
     List<CustomerVO> selectListByPage(@Param("customerQuery") CustomerQuery customerQuery, @Param("page") Page page);
 
-    @DataScope(myTableAlias = "tct", myTableField = "create_id")
+    @DataScope(myTableAlias = "tct", myTableField = "create_by")
     int selectCountByPage(@Param("customerQuery") CustomerQuery customerQuery);
 
     List<CustomerExcel> selectListByExcel();
 
     List<CustomerExcel> selectCustomerLsitByIds(@Param("idList") List<Integer> idList);
+
+    CustomerVO selectCustomerDetailById(@Param("id") Integer id);
+
+    Integer selectTotalCustomerCount();
 }
 
 

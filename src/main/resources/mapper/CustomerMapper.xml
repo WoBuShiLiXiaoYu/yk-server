@@ -44,7 +44,7 @@
     </select>
     <select id="selectCountByPage" resultType="java.lang.Integer">
         select count(*)
-        from t_customer
+        from t_customer as tct
         <where>
             ${customerQuery.filterSQL}
         </where>
@@ -93,5 +93,32 @@
         <foreach collection="idList" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
+    </select>
+    <select id="selectCustomerDetailById" resultType="com.work.ykserver.ykapps.vo.CustomerVO">
+        select tc.id as clueId, tu1.name as ownerName, ta.name as activityName,
+               tc.full_name, tdv1.type_value as appellationName, tc.phone,
+               tc.weixin, tc.qq, tc.email,
+               tc.age, tc.job, tc.year_income,
+               tc.address, tdv2.type_value as isNeedLoan, tdv3.type_value as intentionStateType,
+               tp.name as intentionProductName, tdv4.type_value as clueState, tdv5.type_value as clueSource,
+               tct.description, tct.next_contact_time, tct.create_time,
+               tu2.name as createName, tct.edit_time, tu3.name as editName
+        from t_customer as tct
+                 left outer join t_clue as tc on tct.clue_id = tc.id
+                 left outer join t_user as tu1 on tc.owner_id = tu1.id
+                 left outer join t_user as tu2 on tct.create_by = tu2.id
+                 left outer join t_user as tu3 on tct.edit_by = tu3.id
+                 left outer join t_activity as ta on tc.activity_id = ta.id
+                 left outer join t_dic_value as tdv1 on tc.appellation = tdv1.id
+                 left outer join t_dic_value as tdv2 on tc.need_loan = tdv2.id
+                 left outer join t_dic_value as tdv3 on tc.intention_state = tdv3.id
+                 left outer join t_dic_value as tdv4 on tc.state = tdv4.id
+                 left outer join t_dic_value as tdv5 on tc.source = tdv5.id
+                 left outer join t_product as tp on tc.intention_product = tp.id
+        where tct.id = #{id}
+    </select>
+    <select id="selectTotalCustomerCount" resultType="java.lang.Integer">
+        select count(0)
+        from t_customer
     </select>
 </mapper>

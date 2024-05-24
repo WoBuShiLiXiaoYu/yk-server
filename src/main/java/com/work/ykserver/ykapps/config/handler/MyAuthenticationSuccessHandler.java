@@ -31,7 +31,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 获取当前用户信息
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        log.info("token SecurityUser: " + securityUser);
+        //log.info("token SecurityUser: " + securityUser);
 
         // 登录成功生成 jwt
         //String userJson = JSONUtils.toJSON(securityUser);

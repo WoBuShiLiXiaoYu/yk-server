@@ -119,6 +119,15 @@
         from t_activity
         where now() >= start_time and end_time >= now()
     </select>
+    <select id="selectEffectiveActivityCount" resultType="java.lang.Integer">
+        select count(0)
+        from t_activity
+        where now() >= start_time and end_time >= now()
+    </select>
+    <select id="selectTotalActivityCount" resultType="java.lang.Integer">
+        select count(0)
+        from t_activity
+    </select>
 
 
 </mapper>

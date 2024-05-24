@@ -6,6 +6,7 @@ import com.work.ykserver.ykapps.vo.Result;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.NonTransientDataAccessException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,5 +23,11 @@ public class GlobalExceptionHandler {
     public Result handlerException2(DataAccessException e) {
         e.printStackTrace();
         return ResultUtils.fail(CodeEnum.DATA_ACCESS_EXCEPTION);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public Result handlerException2(AccessDeniedException e) {
+        e.printStackTrace();
+        return ResultUtils.fail(CodeEnum.ACCESS_DENIED);
     }
 }

@@ -80,6 +80,12 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer>
         }
         return customerExcels;
     }
+
+    @Override
+    public Result getCustomerDetailById(Integer id) {
+        CustomerVO customerVO = customerMapper.selectCustomerDetailById(id);
+        return ResultUtils.success(customerVO);
+    }
 }
 
 

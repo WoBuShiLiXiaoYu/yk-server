@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.work.ykserver.ykapps.vo.PermissionVO;
 import lombok.Data;
 
 /**
@@ -115,6 +116,8 @@ public class User implements Serializable {
     private List<String> roleList;
     @TableField(exist = false)
     private List<String> permissionList;
+    @TableField(exist = false)
+    private List<PermissionVO> menuPermissionList;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

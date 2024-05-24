@@ -6,6 +6,7 @@ import com.work.ykserver.ykapps.constant.CharConstants;
 import com.work.ykserver.ykapps.constant.RequestConstants;
 import com.work.ykserver.ykapps.query.CustomerQuery;
 import com.work.ykserver.ykapps.service.CustomerService;
+import com.work.ykserver.ykapps.util.ResultUtils;
 import com.work.ykserver.ykapps.vo.CustomerExcel;
 import com.work.ykserver.ykapps.vo.Result;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -58,5 +59,10 @@ public class CustomerController {
         response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
         List<CustomerExcel> customerExcelList = customerService.getCustomerListByIds(ids);
         EasyExcel.write(response.getOutputStream(), CustomerExcel.class).sheet().doWrite(customerExcelList);
+    }
+
+    @GetMapping("/getCustomerDetail/{id}")
+    public Result getCustomerDetail(@PathVariable(value = "id") Integer id) {
+        return customerService.getCustomerDetailById(id);
     }
 }
