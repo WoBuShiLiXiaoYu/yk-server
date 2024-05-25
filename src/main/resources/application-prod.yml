@@ -1,0 +1,51 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8089
+  servlet:
+    context-path: /
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://1.14.72.183:3306/yk_db?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: yk_db
+    password: 779462
+    hikari:
+      # 最大连接数，默认 10
+      maximum-pool-size: 30
+      # 最小空闲连接，默认 10
+      minimum-idle: 30
+      # 等待连接池分配连接的最大时长
+      connection-timeout: 5000
+      # 空闲连接的最大时长，为 0 不让连接回收
+      idle-timeout: 0
+      # 一个连接的最大时长
+      max-lifetime: 18000000
+
+  redis:
+    host: 1.14.72.183
+    port: 6379
+    database: 0
+
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1 # 逻辑已删除值
+      logic-not-delete-value: 0 # 逻辑未删除值
+
+# 定时任务执行时间
+project:
+  task:
+    cron: '0 0/5 * * * ? '
+    delay: 180000
+
+
+
+

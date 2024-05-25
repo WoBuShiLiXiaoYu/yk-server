@@ -37,6 +37,8 @@ public interface ActivityMapper extends BaseMapper<Activity> {
     Integer selectEffectiveActivityCount();
 
     Integer selectTotalActivityCount();
+
+    int deleteActivityById(@Param("id") Integer id);
 }
 
 

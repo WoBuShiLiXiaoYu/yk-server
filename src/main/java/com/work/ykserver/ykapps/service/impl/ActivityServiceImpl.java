@@ -102,7 +102,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result deleteActivityById(Integer id) {
-        int result = activityMapper.deleteById(id);
+        int result = activityMapper.deleteActivityById(id);
         if (result != 1) {
             return ResultUtils.fail(CodeEnum.DELETE_ACTIVITY_FAIL);
         }

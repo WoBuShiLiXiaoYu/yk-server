@@ -40,6 +40,10 @@
             #{activityId}
         </foreach>
     </delete>
+    <delete id="deleteActivityById">
+        delete from t_activity
+        where id = #{id}
+    </delete>
 
     <select id="selectActivityListByPage" resultType="com.work.ykserver.ykapps.pojo.Activity">
         select ta.id, tu.name as ownerName, ta.name,
