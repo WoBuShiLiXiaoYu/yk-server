@@ -25,7 +25,7 @@ class UserMapperTest {
     @Test
     public void updateUserByIdTest() {
         User user = new User();
-        user.setId(34);
+        user.setId(33);
         user.setLoginAct("zssTest11");
         user.setLoginPwd("123123");
         user.setEmail("123123@163.com");
